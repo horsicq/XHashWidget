@@ -1,5 +1,3 @@
-QT       += svg
-
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
