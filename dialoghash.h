@@ -1,4 +1,4 @@
-// copyright (c) 2017-2020 hors<horsicq@gmail.com>
+// copyright (c) 2020 hors<horsicq@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,28 +18,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#ifndef DIALOGENTROPY_H
-#define DIALOGENTROPY_H
+#ifndef DIALOGHASH_H
+#define DIALOGHASH_H
 
 #include <QDialog>
 
 namespace Ui {
-class DialogEntropy;
+class DialogHash;
 }
 
-class DialogEntropy : public QDialog
+class DialogHash : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit DialogEntropy(QWidget *parent,QIODevice *pDevice,qint64 nOffset=0,qint64 nSize=-1);
-    ~DialogEntropy();
+    explicit DialogHash(QWidget *parent,QIODevice *pDevice,qint64 nOffset=0,qint64 nSize=-1);
+    ~DialogHash();
 
 private slots:
     void on_pushButtonClose_clicked();
 
 private:
-    Ui::DialogEntropy *ui;
+    Ui::DialogHash *ui;
 };
 
-#endif // DIALOGENTROPY_H
+#endif // DIALOGHASH_H

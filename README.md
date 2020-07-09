@@ -1,1 +1,1 @@
-# XEntropyWidget
+# XHashWidget

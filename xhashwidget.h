@@ -18,40 +18,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#ifndef XENTROPYWIDGET_H
-#define XENTROPYWIDGET_H
+#ifndef XHASHWIDGET_H
+#define XHASHWIDGET_H
 
 #include <QWidget>
 #include <QStandardItemModel>
 #include <QItemSelection>
 #include <QImageWriter>
-#include "dialogentropyprocess.h"
-#include "qwt_plot.h"
-#include "qwt_plot_marker.h"
-#include "qwt_plot_curve.h"
-#include "qwt_legend.h"
-#include "qwt_series_data.h"
-#include "qwt_plot_canvas.h"
-#include "qwt_plot_panner.h"
-#include "qwt_plot_magnifier.h"
-#include "qwt_text.h"
-#include "qwt_math.h"
-#include "qwt_plot_renderer.h"
-#include "qwt_plot_histogram.h"
-#include "qwt_plot_zoneitem.h"
-#include "qwt_plot_renderer.h"
+#include "xformats.h"
 
 namespace Ui {
-class XEntropyWidget;
+class XHashWidget;
 }
 
-class XEntropyWidget : public QWidget
+class XHashWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit XEntropyWidget(QWidget *parent=nullptr);
-    ~XEntropyWidget();
+    explicit XHashWidget(QWidget *parent=nullptr);
+    ~XHashWidget();
     void setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool bAuto=false);
     void setSaveDirectory(QString sSaveDirectory);
     void reload();
@@ -65,15 +51,11 @@ private slots:
     QString getResultName();
 
 private:
-    Ui::XEntropyWidget *ui;
+    Ui::XHashWidget *ui;
     QIODevice *pDevice;
     qint64 nOffset;
     qint64 nSize;
-    EntropyProcess::DATA entropyData;
-    QwtPlotCurve *pCurve;
-    QwtPlotHistogram *pHistogram;
-    QList<QwtPlotZoneItem *> listZones;
     QString sSaveDirectory;
 };
 
-#endif // XENTROPYWIDGET_H
+#endif // XHASHWIDGET_H

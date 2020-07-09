@@ -4,30 +4,20 @@ INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
 HEADERS += \
-    $$PWD/dialogentropyprocess.h \
-    $$PWD/xentropywidget.h \
-    $$PWD/entropyprocess.h \
-    $$PWD/dialogentropy.h
+    $$PWD/xhashwidget.h \
+    $$PWD/dialoghash.h
 
 SOURCES += \
-    $$PWD/dialogentropyprocess.cpp \
-    $$PWD/xentropywidget.cpp \
-    $$PWD/entropyprocess.cpp \
-    $$PWD/dialogentropy.cpp
+    $$PWD/xhashwidget.cpp \
+    $$PWD/dialoghash.cpp
 
 FORMS += \
-    $$PWD/dialogentropyprocess.ui \
-    $$PWD/xentropywidget.ui \
-    $$PWD/dialogentropy.ui
+    $$PWD/xhashwidget.ui \
+    $$PWD/dialoghash.ui
 
 !contains(XCONFIG, xformats) {
     XCONFIG += xformats
     include($$PWD/../Formats/xformats.pri)
-}
-
-!contains(XCONFIG, xqwt) {
-    XCONFIG += xqwt
-    include($$PWD/../XQwt/xqwt.pri)
 }
 
 !contains(XCONFIG, xlineedithex) {

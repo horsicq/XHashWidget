@@ -1,4 +1,4 @@
-// copyright (c) 2017-2020 hors<horsicq@gmail.com>
+// copyright (c) 2020 hors<horsicq@gmail.com>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,24 +18,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#include "dialogentropy.h"
-#include "ui_dialogentropy.h"
+#include "dialoghash.h"
+#include "ui_dialoghash.h"
 
-DialogEntropy::DialogEntropy(QWidget *parent, QIODevice *pDevice, qint64 nOffset, qint64 nSize) :
+DialogHash::DialogHash(QWidget *parent, QIODevice *pDevice, qint64 nOffset, qint64 nSize) :
     QDialog(parent),
-    ui(new Ui::DialogEntropy)
+    ui(new Ui::DialogHash)
 {
     ui->setupUi(this);
 
-    ui->widgetEntropy->setData(pDevice,nOffset,nSize,true);
 }
 
-DialogEntropy::~DialogEntropy()
+DialogHash::~DialogHash()
 {
     delete ui;
 }
 
-void DialogEntropy::on_pushButtonClose_clicked()
+void DialogHash::on_pushButtonClose_clicked()
 {
     this->close();
 }
