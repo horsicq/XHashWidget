@@ -27,6 +27,7 @@ DialogHash::DialogHash(QWidget *parent, QIODevice *pDevice, qint64 nOffset, qint
 {
     ui->setupUi(this);
 
+    ui->widgetHash->setData(pDevice,nOffset,nSize,true);
 }
 
 DialogHash::~DialogHash()

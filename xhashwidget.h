@@ -39,12 +39,10 @@ public:
     explicit XHashWidget(QWidget *parent=nullptr);
     ~XHashWidget();
     void setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool bAuto=false);
-    void setSaveDirectory(QString sSaveDirectory);
     void reload();
 
 private slots:
     void on_pushButtonReload_clicked();
-    void updateRegions();
     void on_comboBoxType_currentIndexChanged(int index);
     void on_tableWidgetRegions_itemSelectionChanged();
     void on_pushButtonSaveEntropy_clicked();
@@ -55,7 +53,6 @@ private:
     QIODevice *pDevice;
     qint64 nOffset;
     qint64 nSize;
-    QString sSaveDirectory;
 };
 
 #endif // XHASHWIDGET_H

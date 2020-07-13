@@ -50,14 +50,9 @@ void XHashWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bA
     }
 }
 
-void XHashWidget::setSaveDirectory(QString sSaveDirectory)
-{
-    this->sSaveDirectory=sSaveDirectory;
-}
-
 void XHashWidget::reload()
 {
-
+    // TODO
 }
 
 void XHashWidget::on_pushButtonReload_clicked()
@@ -65,16 +60,11 @@ void XHashWidget::on_pushButtonReload_clicked()
     reload();
 }
 
-void XHashWidget::updateRegions()
-{
-
-}
-
 void XHashWidget::on_comboBoxType_currentIndexChanged(int index)
 {
     Q_UNUSED(index)
 
-    updateRegions();
+    reload();
 }
 
 void XHashWidget::on_tableWidgetRegions_itemSelectionChanged()
