@@ -97,6 +97,8 @@ void XHashWidget::reload()
 
     XBinary binary(pDevice);
 
+    // TODO
+
     SubDevice subDevice(pDevice,nOffset,nSize);
 
     if(subDevice.open(QIODevice::ReadOnly))
