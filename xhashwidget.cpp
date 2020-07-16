@@ -29,7 +29,7 @@ XHashWidget::XHashWidget(QWidget *parent) :
 
     const QSignalBlocker blocker(ui->comboBoxMethod);
 
-    QList<XBinary::HASH> listHashMethodes=XBinary::getHashMethods().toList();
+    QList<XBinary::HASH> listHashMethodes=XBinary::getHashMethods().toList(); // TODO Sort
 
     int nCount=listHashMethodes.count();
 
@@ -165,6 +165,14 @@ void XHashWidget::reload()
                 itemSize->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nSize));
                 itemSize->setTextAlignment(Qt::AlignRight);
                 ui->tableWidgetRegions->setItem(j,2,itemSize);
+
+                QTableWidgetItem *itemHash=new QTableWidgetItem;
+
+                QString sHash=binary.getHash(hash,nOffset+memoryMap.listRecords.at(i).nOffset,memoryMap.listRecords.at(i).nSize);
+
+                itemHash->setText(sHash);
+                itemHash->setTextAlignment(Qt::AlignLeft);
+                ui->tableWidgetRegions->setItem(j,3,itemHash);
 
                 j++;
             }
