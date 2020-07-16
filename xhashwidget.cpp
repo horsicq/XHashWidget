@@ -29,7 +29,7 @@ XHashWidget::XHashWidget(QWidget *parent) :
 
     const QSignalBlocker blocker(ui->comboBoxMethod);
 
-    QList<XBinary::HASH> listHashMethodes=XBinary::getHashMethods().toList(); // TODO Sort
+    QList<XBinary::HASH> listHashMethodes=XBinary::getHashMethodsAsList();
 
     int nCount=listHashMethodes.count();
 
