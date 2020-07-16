@@ -92,7 +92,94 @@ void XHashWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bA
 
 void XHashWidget::reload()
 {
-    // TODO
+    XBinary::HASH hash=(XBinary::HASH)ui->comboBoxMethod->currentData().toInt();
+    XBinary::FT ft=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
+
+    XBinary binary(pDevice);
+
+    SubDevice subDevice(pDevice,nOffset,nSize);
+
+    if(subDevice.open(QIODevice::ReadOnly))
+    {
+        XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(ft,&subDevice);
+
+        XLineEditHEX::MODE mode;
+
+        if(memoryMap.mode==XBinary::MODE_16)
+        {
+            mode=XLineEditHEX::MODE_16;
+        }
+        else if((memoryMap.mode==XBinary::MODE_16SEG)||(memoryMap.mode==XBinary::MODE_32))
+        {
+            mode=XLineEditHEX::MODE_32;
+        }
+        else if(memoryMap.mode==XBinary::MODE_64)
+        {
+            mode=XLineEditHEX::MODE_64;
+        }
+        else if(memoryMap.mode==XBinary::MODE_UNKNOWN)
+        {
+            mode=XLineEditHEX::getModeFromSize(memoryMap.nRawSize);
+        }
+
+        ui->tableWidgetRegions->clear();
+
+        ui->tableWidgetRegions->setRowCount(XBinary::getNumberOfPhysicalRecords(&memoryMap));
+        ui->tableWidgetRegions->setColumnCount(4);
+
+        QStringList slHeader;
+        slHeader.append(tr("Name"));
+        slHeader.append(tr("Offset"));
+        slHeader.append(tr("Size"));
+        slHeader.append(tr("Hash"));
+
+        ui->tableWidgetRegions->setHorizontalHeaderLabels(slHeader);
+        ui->tableWidgetRegions->horizontalHeader()->setVisible(true);
+
+        int nCount=memoryMap.listRecords.count();
+
+        for(int i=0,j=0;i<nCount;i++)
+        {
+            bool bIsVirtual=memoryMap.listRecords.at(i).bIsVirtual;
+
+            if(!bIsVirtual)
+            {
+                QTableWidgetItem *itemName=new QTableWidgetItem;
+
+                itemName->setText(memoryMap.listRecords.at(i).sName);
+                itemName->setData(Qt::UserRole+0,memoryMap.listRecords.at(i).nOffset);
+                itemName->setData(Qt::UserRole+1,memoryMap.listRecords.at(i).nSize);
+
+                ui->tableWidgetRegions->setItem(j,0,itemName);
+
+                QTableWidgetItem *itemOffset=new QTableWidgetItem;
+
+                itemOffset->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nOffset));
+                itemOffset->setTextAlignment(Qt::AlignRight);
+                ui->tableWidgetRegions->setItem(j,1,itemOffset);
+
+                QTableWidgetItem *itemSize=new QTableWidgetItem;
+
+                itemSize->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nSize));
+                itemSize->setTextAlignment(Qt::AlignRight);
+                ui->tableWidgetRegions->setItem(j,2,itemSize);
+
+                j++;
+            }
+        }
+
+        ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
+        ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Interactive);
+        ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Interactive);
+        ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Stretch);
+
+        qint32 nColumnSize=XLineEditHEX::getWidthFromMode(this,mode);
+
+        ui->tableWidgetRegions->setColumnWidth(1,nColumnSize);
+        ui->tableWidgetRegions->setColumnWidth(2,nColumnSize);
+
+        subDevice.close();
+    }
 }
 
 void XHashWidget::on_pushButtonReload_clicked()
@@ -107,16 +194,9 @@ void XHashWidget::on_comboBoxType_currentIndexChanged(int index)
     reload();
 }
 
-void XHashWidget::on_pushButtonSaveEntropy_clicked()
+void XHashWidget::on_comboBoxMethod_currentIndexChanged(int index)
 {
+    Q_UNUSED(index)
 
-}
-
-QString XHashWidget::getResultName()
-{
-    QString sResult;
-
-    // TODO
-
-    return sResult;
+    reload();
 }

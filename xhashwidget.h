@@ -44,8 +44,7 @@ public:
 private slots:
     void on_pushButtonReload_clicked();
     void on_comboBoxType_currentIndexChanged(int index);
-    void on_pushButtonSaveEntropy_clicked();
-    QString getResultName();
+    void on_comboBoxMethod_currentIndexChanged(int index);
 
 private:
     Ui::XHashWidget *ui;
