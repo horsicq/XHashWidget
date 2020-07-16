@@ -26,6 +26,18 @@ XHashWidget::XHashWidget(QWidget *parent) :
     ui(new Ui::XHashWidget)
 {
     ui->setupUi(this);
+
+    const QSignalBlocker blocker(ui->comboBoxMethod);
+
+    QList<XBinary::HASH> listHashMethodes=XBinary::getHashMethods().toList();
+
+    int nCount=listHashMethodes.count();
+
+    for(int i=0;i<nCount;i++)
+    {
+        XBinary::HASH hash=listHashMethodes.at(i);
+        ui->comboBoxMethod->addItem(XBinary::hashIdToString(hash),hash);
+    }
 }
 
 XHashWidget::~XHashWidget()
@@ -65,11 +77,6 @@ void XHashWidget::on_comboBoxType_currentIndexChanged(int index)
     Q_UNUSED(index)
 
     reload();
-}
-
-void XHashWidget::on_tableWidgetRegions_itemSelectionChanged()
-{
-
 }
 
 void XHashWidget::on_pushButtonSaveEntropy_clicked()
