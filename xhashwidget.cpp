@@ -97,7 +97,7 @@ void XHashWidget::reload()
 
     XBinary binary(pDevice);
 
-    // TODO
+    ui->lineEditHash->setText(binary.getHash(hash,nOffset,nSize));
 
     SubDevice subDevice(pDevice,nOffset,nSize);
 
