@@ -56,9 +56,37 @@ void XHashWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bA
         this->nSize=(pDevice->size())-(this->nOffset);
     }
 
+    ui->lineEditOffset->setValue32_64(this->nOffset);
+    ui->lineEditSize->setValue32_64(this->nSize);
+
     if(bAuto)
     {
+        const QSignalBlocker blocker(ui->comboBoxType);
 
+        ui->comboBoxType->clear();
+
+        SubDevice subDevice(pDevice,this->nOffset,this->nSize);
+
+        if(subDevice.open(QIODevice::ReadOnly))
+        {
+            QList<XBinary::FT> listFileTypes=XBinary::_getFileTypeListFromSet(XBinary::getFileTypes(&subDevice));
+
+            int nCount=listFileTypes.count();
+
+            for(int i=0;i<nCount;i++)
+            {
+                XBinary::FT ft=listFileTypes.at(i);
+                ui->comboBoxType->addItem(XBinary::fileTypeIdToString(ft),ft);
+            }
+
+            if(nCount)
+            {
+                ui->comboBoxType->setCurrentIndex(nCount-1);
+                reload();
+            }
+
+            subDevice.close();
+        }
     }
 }
 
