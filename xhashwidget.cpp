@@ -197,16 +197,16 @@ void XHashWidget::on_pushButtonReload_clicked()
     reload();
 }
 
-void XHashWidget::on_comboBoxType_currentIndexChanged(int index)
+void XHashWidget::on_comboBoxType_currentIndexChanged(int nIndex)
 {
-    Q_UNUSED(index)
+    Q_UNUSED(nIndex)
 
     reload();
 }
 
-void XHashWidget::on_comboBoxMethod_currentIndexChanged(int index)
+void XHashWidget::on_comboBoxMethod_currentIndexChanged(int nIndex)
 {
-    Q_UNUSED(index)
+    Q_UNUSED(nIndex)
 
     reload();
 }

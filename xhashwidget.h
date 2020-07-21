@@ -43,8 +43,8 @@ public:
 
 private slots:
     void on_pushButtonReload_clicked();
-    void on_comboBoxType_currentIndexChanged(int index);
-    void on_comboBoxMethod_currentIndexChanged(int index);
+    void on_comboBoxType_currentIndexChanged(int nIndex);
+    void on_comboBoxMethod_currentIndexChanged(int nIndex);
 
 private:
     Ui::XHashWidget *ui;
