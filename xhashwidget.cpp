@@ -185,6 +185,7 @@ void XHashWidget::reload()
 
         qint32 nColumnSize=XLineEditHEX::getWidthFromMode(this,mode);
 
+        ui->tableWidgetRegions->setColumnWidth(0,150);
         ui->tableWidgetRegions->setColumnWidth(1,nColumnSize);
         ui->tableWidgetRegions->setColumnWidth(2,nColumnSize);
 
