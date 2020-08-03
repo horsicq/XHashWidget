@@ -21,8 +21,8 @@
 #include "xhashwidget.h"
 #include "ui_xhashwidget.h"
 
-XHashWidget::XHashWidget(QWidget *parent) :
-    QWidget(parent),
+XHashWidget::XHashWidget(QWidget *pParent) :
+    QWidget(pParent),
     ui(new Ui::XHashWidget)
 {
     ui->setupUi(this);

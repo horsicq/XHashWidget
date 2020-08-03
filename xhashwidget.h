@@ -36,7 +36,7 @@ class XHashWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit XHashWidget(QWidget *parent=nullptr);
+    explicit XHashWidget(QWidget *pParent=nullptr);
     ~XHashWidget();
     void setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool bAuto=false);
     void reload();
