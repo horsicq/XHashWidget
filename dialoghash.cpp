@@ -21,8 +21,8 @@
 #include "dialoghash.h"
 #include "ui_dialoghash.h"
 
-DialogHash::DialogHash(QWidget *parent, QIODevice *pDevice, qint64 nOffset, qint64 nSize) :
-    QDialog(parent),
+DialogHash::DialogHash(QWidget *pParent, QIODevice *pDevice, qint64 nOffset, qint64 nSize) :
+    QDialog(pParent),
     ui(new Ui::DialogHash)
 {
     ui->setupUi(this);

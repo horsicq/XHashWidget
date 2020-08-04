@@ -32,7 +32,7 @@ class DialogHash : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogHash(QWidget *parent,QIODevice *pDevice,qint64 nOffset=0,qint64 nSize=-1);
+    explicit DialogHash(QWidget *pParent,QIODevice *pDevice,qint64 nOffset=0,qint64 nSize=-1);
     ~DialogHash();
 
 private slots:
