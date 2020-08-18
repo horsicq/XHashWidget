@@ -93,7 +93,7 @@ void XHashWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bA
 void XHashWidget::reload()
 {
     XBinary::HASH hash=(XBinary::HASH)ui->comboBoxMethod->currentData().toInt();
-    XBinary::FT ft=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
+    XBinary::FT fileType=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
 
     XBinary binary(pDevice);
 
@@ -103,7 +103,7 @@ void XHashWidget::reload()
 
     if(subDevice.open(QIODevice::ReadOnly))
     {
-        XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(ft,&subDevice);
+        XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(fileType,&subDevice);
 
         XLineEditHEX::MODE mode;
 
