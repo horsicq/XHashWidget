@@ -75,8 +75,8 @@ void XHashWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bA
 
             for(int i=0;i<nCount;i++)
             {
-                XBinary::FT ft=listFileTypes.at(i);
-                ui->comboBoxType->addItem(XBinary::fileTypeIdToString(ft),ft);
+                XBinary::FT fileType=listFileTypes.at(i);
+                ui->comboBoxType->addItem(XBinary::fileTypeIdToString(fileType),fileType);
             }
 
             if(nCount)
