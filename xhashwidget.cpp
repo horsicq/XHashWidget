@@ -146,33 +146,33 @@ void XHashWidget::reload()
 
             if(!bIsVirtual)
             {
-                QTableWidgetItem *itemName=new QTableWidgetItem;
+                QTableWidgetItem *pItemName=new QTableWidgetItem;
 
-                itemName->setText(memoryMap.listRecords.at(i).sName);
-                itemName->setData(Qt::UserRole+0,memoryMap.listRecords.at(i).nOffset);
-                itemName->setData(Qt::UserRole+1,memoryMap.listRecords.at(i).nSize);
+                pItemName->setText(memoryMap.listRecords.at(i).sName);
+                pItemName->setData(Qt::UserRole+0,memoryMap.listRecords.at(i).nOffset);
+                pItemName->setData(Qt::UserRole+1,memoryMap.listRecords.at(i).nSize);
 
-                ui->tableWidgetRegions->setItem(j,0,itemName);
+                ui->tableWidgetRegions->setItem(j,0,pItemName);
 
-                QTableWidgetItem *itemOffset=new QTableWidgetItem;
+                QTableWidgetItem *pItemOffset=new QTableWidgetItem;
 
-                itemOffset->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nOffset));
-                itemOffset->setTextAlignment(Qt::AlignRight);
-                ui->tableWidgetRegions->setItem(j,1,itemOffset);
+                pItemOffset->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nOffset));
+                pItemOffset->setTextAlignment(Qt::AlignRight);
+                ui->tableWidgetRegions->setItem(j,1,pItemOffset);
 
-                QTableWidgetItem *itemSize=new QTableWidgetItem;
+                QTableWidgetItem *pItemSize=new QTableWidgetItem;
 
-                itemSize->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nSize));
-                itemSize->setTextAlignment(Qt::AlignRight);
-                ui->tableWidgetRegions->setItem(j,2,itemSize);
+                pItemSize->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nSize));
+                pItemSize->setTextAlignment(Qt::AlignRight);
+                ui->tableWidgetRegions->setItem(j,2,pItemSize);
 
-                QTableWidgetItem *itemHash=new QTableWidgetItem;
+                QTableWidgetItem *pItemHash=new QTableWidgetItem;
 
                 QString sHash=binary.getHash(hash,nOffset+memoryMap.listRecords.at(i).nOffset,memoryMap.listRecords.at(i).nSize);
 
-                itemHash->setText(sHash);
-                itemHash->setTextAlignment(Qt::AlignLeft);
-                ui->tableWidgetRegions->setItem(j,3,itemHash);
+                pItemHash->setText(sHash);
+                pItemHash->setTextAlignment(Qt::AlignLeft);
+                ui->tableWidgetRegions->setItem(j,3,pItemHash);
 
                 j++;
             }
