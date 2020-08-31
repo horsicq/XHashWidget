@@ -18,41 +18,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#ifndef XHASHWIDGET_H
-#define XHASHWIDGET_H
+#ifndef DIALOGHASHPROCESS_H
+#define DIALOGHASHPROCESS_H
 
-#include <QWidget>
-#include <QStandardItemModel>
-#include <QItemSelection>
-#include <QImageWriter>
-#include "xformats.h"
-#include "dialoghashprocess.h"
+#include <QDialog>
+#include <QMessageBox>
+#include <QThread>
+#include "hashprocess.h"
 
 namespace Ui {
-class XHashWidget;
+class DialogHashProcess;
 }
 
-class XHashWidget : public QWidget
+class DialogHashProcess : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit XHashWidget(QWidget *pParent=nullptr);
-    ~XHashWidget();
-    void setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool bAuto=false);
-    void reload();
+    explicit DialogHashProcess(QWidget *pParent, QIODevice *pDevice, HashProcess::DATA *pData);
+    ~DialogHashProcess();
 
 private slots:
-    void on_pushButtonReload_clicked();
-    void on_comboBoxType_currentIndexChanged(int nIndex);
-    void on_comboBoxMethod_currentIndexChanged(int nIndex);
+    void on_pushButtonCancel_clicked();
+    void errorMessage(QString sText);
+    void onCompleted(qint64 nElapsed);
+    void progressValueChanged(qint32 nValue);
+    void progressValueMaximum(qint32 nValue);
+    void progressValueMinimum(qint32 nValue);
 
 private:
-    Ui::XHashWidget *ui;
-    QIODevice *pDevice;
-    qint64 nOffset;
-    qint64 nSize;
-    HashProcess::DATA hashData;
+    Ui::DialogHashProcess *ui;
+    HashProcess *pHashProcess;
+    QThread *pThread;
+    bool bIsStop;
 };
 
-#endif // XHASHWIDGET_H
+#endif // DIALOGHASHPROCESS_H

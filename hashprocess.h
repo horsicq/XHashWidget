@@ -18,41 +18,58 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-#ifndef XHASHWIDGET_H
-#define XHASHWIDGET_H
+#ifndef HASHPROCESS_H
+#define HASHPROCESS_H
 
-#include <QWidget>
-#include <QStandardItemModel>
-#include <QItemSelection>
-#include <QImageWriter>
+#include <QObject>
+#include "xlineedithex.h"
 #include "xformats.h"
-#include "dialoghashprocess.h"
 
-namespace Ui {
-class XHashWidget;
-}
-
-class XHashWidget : public QWidget
+class HashProcess : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit XHashWidget(QWidget *pParent=nullptr);
-    ~XHashWidget();
-    void setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool bAuto=false);
-    void reload();
+    static const int N_MAX_GRAPH=100;
 
-private slots:
-    void on_pushButtonReload_clicked();
-    void on_comboBoxType_currentIndexChanged(int nIndex);
-    void on_comboBoxMethod_currentIndexChanged(int nIndex);
+    struct MEMORY_RECORD
+    {
+        QString sName;
+        qint64 nOffset;
+        qint64 nSize;
+        QString sHash;
+    };
+
+    struct DATA
+    {
+        qint64 nOffset;
+        qint64 nSize;
+        QString sHash;
+        XBinary::HASH hash;
+        XBinary::FT fileType;
+        XLineEditHEX::MODE mode;
+        QList<MEMORY_RECORD> listMemoryRecords;
+    };
+
+    explicit HashProcess(QObject *pParent=nullptr);
+    void setData(QIODevice *pDevice,DATA *pData);
+
+signals:
+    void errorMessage(QString sText);
+    void completed(qint64 nElapsed);
+    void progressValueChanged(qint32 nValue);
+    void progressValueMinimum(qint32 nValue);
+    void progressValueMaximum(qint32 nValue);
+
+public slots:
+    void stop();
+    void process();
 
 private:
-    Ui::XHashWidget *ui;
     QIODevice *pDevice;
-    qint64 nOffset;
-    qint64 nSize;
-    HashProcess::DATA hashData;
+    DATA *pData;
+    bool bIsStop;
+    XBinary binary;
 };
 
-#endif // XHASHWIDGET_H
+#endif // HASHPROCESS_H
