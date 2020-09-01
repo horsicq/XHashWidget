@@ -175,6 +175,13 @@
        </property>
       </spacer>
      </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonReload">
+       <property name="text">
+        <string>Reload</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>

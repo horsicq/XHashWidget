@@ -25,8 +25,8 @@ HashProcess::HashProcess(QObject *pParent) : QObject(pParent)
     bIsStop=false;
 
     connect(&binary,SIGNAL(hashProgressValueChanged(qint32)),this,SIGNAL(progressValueChanged(qint32)));
-    connect(&binary,SIGNAL(hashProgressMinimumChanged(qint32)),this,SIGNAL(hashProgressMinimumChanged(qint32)));
-    connect(&binary,SIGNAL(hashProgressMaximumChanged(qint32)),this,SIGNAL(hashProgressMaximumChanged(qint32)));
+    connect(&binary,SIGNAL(hashProgressMinimumChanged(qint32)),this,SIGNAL(progressValueMinimum(qint32)));
+    connect(&binary,SIGNAL(hashProgressMaximumChanged(qint32)),this,SIGNAL(progressValueMaximum(qint32)));
 }
 
 void HashProcess::setData(QIODevice *pDevice, DATA *pData)
