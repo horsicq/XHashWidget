@@ -31,13 +31,13 @@ XHashWidget::XHashWidget(QWidget *pParent) :
 
     const QSignalBlocker blocker(ui->comboBoxMethod);
 
-    QList<XBinary::HASH> listHashMethodes=XBinary::getHashMethodsAsList();
+    QList<XBinary::HASH> listHashMethods=XBinary::getHashMethodsAsList();
 
-    int nNumberOfMethodes=listHashMethodes.count();
+    int nNumberOfMethods=listHashMethods.count();
 
-    for(int i=0;i<nNumberOfMethodes;i++)
+    for(int i=0;i<nNumberOfMethods;i++)
     {
-        XBinary::HASH hash=listHashMethodes.at(i);
+        XBinary::HASH hash=listHashMethods.at(i);
         ui->comboBoxMethod->addItem(XBinary::hashIdToString(hash),hash);
     }
 }
