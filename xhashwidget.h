@@ -49,6 +49,7 @@ private slots:
 
 private:
     Ui::XHashWidget *ui;
+    QWidget *pParent;
     QIODevice *pDevice;
     qint64 nOffset;
     qint64 nSize;
