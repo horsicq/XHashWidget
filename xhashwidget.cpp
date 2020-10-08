@@ -26,7 +26,6 @@ XHashWidget::XHashWidget(QWidget *pParent) :
     ui(new Ui::XHashWidget)
 {
     ui->setupUi(this);
-    this->pParent=pParent;
 
     hashData={};
 
@@ -100,7 +99,7 @@ void XHashWidget::reload()
     hashData.nOffset=nOffset;
     hashData.nSize=nSize;
 
-    DialogHashProcess dhp(pParent,pDevice,&hashData);
+    DialogHashProcess dhp(this,pDevice,&hashData);
 
     if(dhp.exec()==QDialog::Accepted)
     {
@@ -110,14 +109,14 @@ void XHashWidget::reload()
 
         int nNumberOfMemoryRecords=hashData.listMemoryRecords.count();
 
-        ui->tableWidgetRegions->setRowCount(nNumberOfMemoryRecords);
-        ui->tableWidgetRegions->setColumnCount(4);
-
         QStringList slHeader;
         slHeader.append(tr("Name"));
         slHeader.append(tr("Offset"));
         slHeader.append(tr("Size"));
         slHeader.append(tr("Hash"));
+
+        ui->tableWidgetRegions->setRowCount(nNumberOfMemoryRecords);
+        ui->tableWidgetRegions->setColumnCount(slHeader.size());
 
         ui->tableWidgetRegions->setHorizontalHeaderLabels(slHeader);
         ui->tableWidgetRegions->horizontalHeader()->setVisible(true);
