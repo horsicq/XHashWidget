@@ -35,7 +35,7 @@ class DialogHashProcess : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogHashProcess(QWidget *pParent, QIODevice *pDevice, HashProcess::DATA *pData);
+    explicit DialogHashProcess(QWidget *pParent,QIODevice *pDevice,HashProcess::DATA *pData);
     ~DialogHashProcess();
 
 private slots:
