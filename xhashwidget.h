@@ -39,7 +39,7 @@ class XHashWidget : public QWidget
 public:
     explicit XHashWidget(QWidget *pParent=nullptr);
     ~XHashWidget();
-    void setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bAuto=false);
+    void setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bAuto=false,QWidget *pParent=nullptr);
     void reload();
 
 private slots:
