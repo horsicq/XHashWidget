@@ -27,42 +27,42 @@ DialogHashProcess::DialogHashProcess(QWidget *pParent, QIODevice *pDevice, HashP
 {
     ui->setupUi(this);
 
-    bIsStop=false;
+    g_bIsStop=false;
 
-    pHashProcess=new HashProcess;
-    pThread=new QThread;
+    g_pHashProcess=new HashProcess;
+    g_pThread=new QThread;
 
-    pHashProcess->moveToThread(pThread);
+    g_pHashProcess->moveToThread(g_pThread);
 
-    connect(pThread, SIGNAL(started()), pHashProcess, SLOT(process()));
-    connect(pHashProcess, SIGNAL(completed(qint64)), this, SLOT(onCompleted(qint64)));
-    connect(pHashProcess, SIGNAL(errorMessage(QString)), this, SLOT(errorMessage(QString)));
-    connect(pHashProcess, SIGNAL(progressValueChanged(qint32)), this, SLOT(progressValueChanged(qint32)));
-    connect(pHashProcess, SIGNAL(progressValueMinimum(qint32)), this, SLOT(progressValueMinimum(qint32)));
-    connect(pHashProcess, SIGNAL(progressValueMaximum(qint32)), this, SLOT(progressValueMaximum(qint32)));
+    connect(g_pThread, SIGNAL(started()), g_pHashProcess, SLOT(process()));
+    connect(g_pHashProcess, SIGNAL(completed(qint64)), this, SLOT(onCompleted(qint64)));
+    connect(g_pHashProcess, SIGNAL(errorMessage(QString)), this, SLOT(errorMessage(QString)));
+    connect(g_pHashProcess, SIGNAL(progressValueChanged(qint32)), this, SLOT(progressValueChanged(qint32)));
+    connect(g_pHashProcess, SIGNAL(progressValueMinimum(qint32)), this, SLOT(progressValueMinimum(qint32)));
+    connect(g_pHashProcess, SIGNAL(progressValueMaximum(qint32)), this, SLOT(progressValueMaximum(qint32)));
 
-    pHashProcess->setData(pDevice,pData);
-    pThread->start();
+    g_pHashProcess->setData(pDevice,pData);
+    g_pThread->start();
 }
 
 DialogHashProcess::~DialogHashProcess()
 {
-    pHashProcess->stop();
+    g_pHashProcess->stop();
 
-    pThread->quit();
-    pThread->wait();
+    g_pThread->quit();
+    g_pThread->wait();
 
     delete ui;
 
-    delete pThread;
-    delete pHashProcess;
+    delete g_pThread;
+    delete g_pHashProcess;
 }
 
 void DialogHashProcess::on_pushButtonCancel_clicked()
 {
-    bIsStop=true;
+    g_bIsStop=true;
 
-    pHashProcess->stop();
+    g_pHashProcess->stop();
 }
 
 void DialogHashProcess::errorMessage(QString sText)
@@ -74,7 +74,7 @@ void DialogHashProcess::onCompleted(qint64 nElapsed)
 {
     Q_UNUSED(nElapsed)
 
-    if(!bIsStop)
+    if(!g_bIsStop)
     {
         accept();
     }

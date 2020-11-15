@@ -48,9 +48,9 @@ private slots:
 
 private:
     Ui::DialogHashProcess *ui;
-    HashProcess *pHashProcess;
-    QThread *pThread;
-    bool bIsStop;
+    HashProcess *g_pHashProcess;
+    QThread *g_pThread;
+    bool g_bIsStop;
 };
 
 #endif // DIALOGHASHPROCESS_H
