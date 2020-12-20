@@ -21,7 +21,6 @@
 #ifndef HASHPROCESS_H
 #define HASHPROCESS_H
 
-#include <QObject>
 #include "xlineedithex.h"
 #include "xformats.h"
 
