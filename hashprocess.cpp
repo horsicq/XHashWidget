@@ -22,7 +22,7 @@
 
 HashProcess::HashProcess(QObject *pParent) : QObject(pParent)
 {
-    bIsStop=false;
+    g_bIsStop=false;
 
     connect(&binary,SIGNAL(hashProgressValueChanged(qint32)),this,SIGNAL(progressValueChanged(qint32)));
     connect(&binary,SIGNAL(hashProgressMinimumChanged(qint32)),this,SIGNAL(progressValueMinimum(qint32)));
@@ -32,13 +32,13 @@ HashProcess::HashProcess(QObject *pParent) : QObject(pParent)
 void HashProcess::setData(QIODevice *pDevice, DATA *pData)
 {
     this->g_pDevice=pDevice;
-    this->pData=pData;
+    this->g_pData=pData;
 }
 
 void HashProcess::stop()
 {
     binary.setHashProcessEnable(false);
-    bIsStop=true;
+    g_bIsStop=true;
 }
 
 void HashProcess::process()
@@ -46,33 +46,33 @@ void HashProcess::process()
     QElapsedTimer scanTimer;
     scanTimer.start();
 
-    bIsStop=false;
+    g_bIsStop=false;
 
     binary.setDevice(this->g_pDevice);
 
-    pData->sHash=binary.getHash(pData->hash,pData->nOffset,pData->nSize);
+    g_pData->sHash=binary.getHash(g_pData->hash,g_pData->nOffset,g_pData->nSize);
 
-    pData->listMemoryRecords.clear();
+    g_pData->listMemoryRecords.clear();
 
-    XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(pData->fileType,this->g_pDevice);
+    XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(g_pData->fileType,this->g_pDevice);
 
-    pData->mode=XLineEditHEX::MODE_32;
+    g_pData->mode=XLineEditHEX::MODE_32;
 
     if(memoryMap.mode==XBinary::MODE_16)
     {
-        pData->mode=XLineEditHEX::MODE_16;
+        g_pData->mode=XLineEditHEX::MODE_16;
     }
     else if((memoryMap.mode==XBinary::MODE_16SEG)||(memoryMap.mode==XBinary::MODE_32))
     {
-        pData->mode=XLineEditHEX::MODE_32;
+        g_pData->mode=XLineEditHEX::MODE_32;
     }
     else if(memoryMap.mode==XBinary::MODE_64)
     {
-        pData->mode=XLineEditHEX::MODE_64;
+        g_pData->mode=XLineEditHEX::MODE_64;
     }
     else if(memoryMap.mode==XBinary::MODE_UNKNOWN)
     {
-        pData->mode=XLineEditHEX::getModeFromSize(memoryMap.nRawSize);
+        g_pData->mode=XLineEditHEX::getModeFromSize(memoryMap.nRawSize);
     }
 
     int nNumberOfRecords=memoryMap.listRecords.count();
@@ -85,26 +85,26 @@ void HashProcess::process()
         {
             MEMORY_RECORD memoryRecord={};
 
-            if((memoryMap.listRecords.at(i).nOffset==0)&&(memoryMap.listRecords.at(i).nSize==pData->nSize))
+            if((memoryMap.listRecords.at(i).nOffset==0)&&(memoryMap.listRecords.at(i).nSize==g_pData->nSize))
             {
-                memoryRecord.sHash=pData->sHash;
+                memoryRecord.sHash=g_pData->sHash;
             }
             else
             {
-                memoryRecord.sHash=binary.getHash(pData->hash,pData->nOffset+memoryMap.listRecords.at(i).nOffset,memoryMap.listRecords.at(i).nSize);
+                memoryRecord.sHash=binary.getHash(g_pData->hash,g_pData->nOffset+memoryMap.listRecords.at(i).nOffset,memoryMap.listRecords.at(i).nSize);
             }
 
             memoryRecord.sName=memoryMap.listRecords.at(i).sName;
             memoryRecord.nOffset=memoryMap.listRecords.at(i).nOffset;
             memoryRecord.nSize=memoryMap.listRecords.at(i).nSize;
 
-            pData->listMemoryRecords.append(memoryRecord);
+            g_pData->listMemoryRecords.append(memoryRecord);
 
             j++;
         }
     }
 
-    bIsStop=false;
+    g_bIsStop=false;
 
     emit completed(scanTimer.elapsed());
 }

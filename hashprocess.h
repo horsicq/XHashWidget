@@ -66,8 +66,8 @@ public slots:
 
 private:
     QIODevice *g_pDevice;
-    DATA *pData;
-    bool bIsStop;
+    DATA *g_pData;
+    bool g_bIsStop;
     XBinary binary;
 };
 
