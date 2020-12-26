@@ -50,7 +50,7 @@ private slots:
 private:
     Ui::XHashWidget *ui;
     QWidget *g_pParent;
-    QIODevice *pDevice;
+    QIODevice *g_pDevice;
     qint64 nOffset;
     qint64 nSize;
     HashProcess::DATA hashData;

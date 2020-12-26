@@ -51,7 +51,7 @@ XHashWidget::~XHashWidget()
 
 void XHashWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool bAuto, QWidget *pParent)
 {
-    this->pDevice=pDevice;
+    this->g_pDevice=pDevice;
     this->nOffset=nOffset;
     this->nSize=nSize;
     this->g_pParent=pParent;
@@ -102,7 +102,7 @@ void XHashWidget::reload()
     hashData.nOffset=nOffset;
     hashData.nSize=nSize;
 
-    DialogHashProcess dhp(g_pParent,pDevice,&hashData);
+    DialogHashProcess dhp(g_pParent,g_pDevice,&hashData);
 
     if(dhp.exec()==QDialog::Accepted)
     {
