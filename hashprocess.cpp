@@ -31,7 +31,7 @@ HashProcess::HashProcess(QObject *pParent) : QObject(pParent)
 
 void HashProcess::setData(QIODevice *pDevice, DATA *pData)
 {
-    this->pDevice=pDevice;
+    this->g_pDevice=pDevice;
     this->pData=pData;
 }
 
@@ -48,13 +48,13 @@ void HashProcess::process()
 
     bIsStop=false;
 
-    binary.setDevice(this->pDevice);
+    binary.setDevice(this->g_pDevice);
 
     pData->sHash=binary.getHash(pData->hash,pData->nOffset,pData->nSize);
 
     pData->listMemoryRecords.clear();
 
-    XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(pData->fileType,this->pDevice);
+    XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(pData->fileType,this->g_pDevice);
 
     pData->mode=XLineEditHEX::MODE_32;
 

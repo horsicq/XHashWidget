@@ -65,7 +65,7 @@ public slots:
     void process();
 
 private:
-    QIODevice *pDevice;
+    QIODevice *g_pDevice;
     DATA *pData;
     bool bIsStop;
     XBinary binary;
