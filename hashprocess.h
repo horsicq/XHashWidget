@@ -68,7 +68,7 @@ private:
     QIODevice *g_pDevice;
     DATA *g_pData;
     bool g_bIsStop;
-    XBinary binary;
+    XBinary g_binary;
 };
 
 #endif // HASHPROCESS_H

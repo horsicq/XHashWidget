@@ -24,9 +24,9 @@ HashProcess::HashProcess(QObject *pParent) : QObject(pParent)
 {
     g_bIsStop=false;
 
-    connect(&binary,SIGNAL(hashProgressValueChanged(qint32)),this,SIGNAL(progressValueChanged(qint32)));
-    connect(&binary,SIGNAL(hashProgressMinimumChanged(qint32)),this,SIGNAL(progressValueMinimum(qint32)));
-    connect(&binary,SIGNAL(hashProgressMaximumChanged(qint32)),this,SIGNAL(progressValueMaximum(qint32)));
+    connect(&g_binary,SIGNAL(hashProgressValueChanged(qint32)),this,SIGNAL(progressValueChanged(qint32)));
+    connect(&g_binary,SIGNAL(hashProgressMinimumChanged(qint32)),this,SIGNAL(progressValueMinimum(qint32)));
+    connect(&g_binary,SIGNAL(hashProgressMaximumChanged(qint32)),this,SIGNAL(progressValueMaximum(qint32)));
 }
 
 void HashProcess::setData(QIODevice *pDevice, DATA *pData)
@@ -37,7 +37,7 @@ void HashProcess::setData(QIODevice *pDevice, DATA *pData)
 
 void HashProcess::stop()
 {
-    binary.setHashProcessEnable(false);
+    g_binary.setHashProcessEnable(false);
     g_bIsStop=true;
 }
 
@@ -48,9 +48,9 @@ void HashProcess::process()
 
     g_bIsStop=false;
 
-    binary.setDevice(this->g_pDevice);
+    g_binary.setDevice(this->g_pDevice);
 
-    g_pData->sHash=binary.getHash(g_pData->hash,g_pData->nOffset,g_pData->nSize);
+    g_pData->sHash=g_binary.getHash(g_pData->hash,g_pData->nOffset,g_pData->nSize);
 
     g_pData->listMemoryRecords.clear();
 
@@ -91,7 +91,7 @@ void HashProcess::process()
             }
             else
             {
-                memoryRecord.sHash=binary.getHash(g_pData->hash,g_pData->nOffset+memoryMap.listRecords.at(i).nOffset,memoryMap.listRecords.at(i).nSize);
+                memoryRecord.sHash=g_binary.getHash(g_pData->hash,g_pData->nOffset+memoryMap.listRecords.at(i).nOffset,memoryMap.listRecords.at(i).nSize);
             }
 
             memoryRecord.sName=memoryMap.listRecords.at(i).sName;
