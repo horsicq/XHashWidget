@@ -58,7 +58,11 @@ void HashProcess::process()
 
     g_pData->mode=XLineEditHEX::MODE_32;
 
-    if(memoryMap.mode==XBinary::MODE_16)
+    if(memoryMap.mode==XBinary::MODE_8)
+    {
+        g_pData->mode=XLineEditHEX::MODE_8;
+    }
+    else if(memoryMap.mode==XBinary::MODE_16)
     {
         g_pData->mode=XLineEditHEX::MODE_16;
     }
