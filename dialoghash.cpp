@@ -37,6 +37,11 @@ DialogHash::~DialogHash()
     delete ui;
 }
 
+void DialogHash::setShortcuts(XShortcuts *pShortcuts)
+{
+    // TODO
+}
+
 void DialogHash::on_pushButtonClose_clicked()
 {
     this->close();

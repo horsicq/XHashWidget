@@ -22,6 +22,7 @@
 #define DIALOGHASH_H
 
 #include <QDialog>
+#include "xshortcuts.h"
 
 namespace Ui {
 class DialogHash;
@@ -34,6 +35,7 @@ class DialogHash : public QDialog
 public:
     explicit DialogHash(QWidget *pParent,QIODevice *pDevice,qint64 nOffset=0,qint64 nSize=-1);
     ~DialogHash();
+    void setShortcuts(XShortcuts *pShortcuts);
 
 private slots:
     void on_pushButtonClose_clicked();
