@@ -70,7 +70,9 @@ void XHashWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool
 
         if(subDevice.open(QIODevice::ReadOnly))
         {
-            QList<XBinary::FT> listFileTypes=XBinary::_getFileTypeListFromSet(XBinary::getFileTypes(&subDevice,true));
+            QSet<XBinary::FT> stFileType=XBinary::getFileTypes(pDevice,true);
+            stFileType.insert(XBinary::FT_COM);
+            QList<XBinary::FT> listFileTypes=XBinary::_getFileTypeListFromSet(stFileType);
 
             XFormats::setFileTypeComboBox(ui->comboBoxType,&listFileTypes,XBinary::FT_UNKNOWN);
 
