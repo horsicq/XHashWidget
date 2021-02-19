@@ -24,6 +24,8 @@ HashProcess::HashProcess(QObject *pParent) : QObject(pParent)
 {
     g_bIsStop=false;
 
+    connect(&g_binary,SIGNAL(errorMessage(QString)),this,SIGNAL(errorMessage(QString)));
+    connect(&g_binary,SIGNAL(hashProgressValueChanged(qint32)),this,SIGNAL(progressValueChanged(qint32)));
     connect(&g_binary,SIGNAL(hashProgressValueChanged(qint32)),this,SIGNAL(progressValueChanged(qint32)));
     connect(&g_binary,SIGNAL(hashProgressMinimumChanged(qint32)),this,SIGNAL(progressValueMinimum(qint32)));
     connect(&g_binary,SIGNAL(hashProgressMaximumChanged(qint32)),this,SIGNAL(progressValueMaximum(qint32)));
