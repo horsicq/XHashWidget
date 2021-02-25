@@ -27,12 +27,13 @@
 #include <QImageWriter>
 #include "xformats.h"
 #include "dialoghashprocess.h"
+#include "xshortcutswidget.h"
 
 namespace Ui {
 class XHashWidget;
 }
 
-class XHashWidget : public QWidget
+class XHashWidget : public XShortcutsWidget
 {
     Q_OBJECT
 
@@ -46,6 +47,9 @@ private slots:
     void on_pushButtonReload_clicked();
     void on_comboBoxType_currentIndexChanged(int nIndex);
     void on_comboBoxMethod_currentIndexChanged(int nIndex);
+
+protected:
+    virtual void registerShortcuts(bool bState);
 
 private:
     Ui::XHashWidget *ui;

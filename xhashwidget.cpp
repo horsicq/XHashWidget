@@ -22,7 +22,7 @@
 #include "ui_xhashwidget.h"
 
 XHashWidget::XHashWidget(QWidget *pParent) :
-    QWidget(pParent),
+    XShortcutsWidget(pParent),
     ui(new Ui::XHashWidget)
 {
     ui->setupUi(this);
@@ -173,4 +173,9 @@ void XHashWidget::on_comboBoxMethod_currentIndexChanged(int nIndex)
     Q_UNUSED(nIndex)
 
     reload();
+}
+
+void XHashWidget::registerShortcuts(bool bState)
+{
+    // TODO
 }
