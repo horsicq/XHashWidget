@@ -29,7 +29,7 @@ XHashWidget::XHashWidget(QWidget *pParent) :
 
     this->g_pParent=pParent;
 
-    hashData={};
+    g_hashData={};
 
     const QSignalBlocker blocker(ui->comboBoxMethod);
 
@@ -53,20 +53,20 @@ void XHashWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool
 {
     this->g_pDevice=pDevice;
     this->g_nOffset=nOffset;
-    this->nSize=nSize;
+    this->g_nSize=nSize;
     this->g_pParent=pParent;
 
-    if(this->nSize==-1)
+    if(this->g_nSize==-1)
     {
-        this->nSize=(pDevice->size())-(this->g_nOffset);
+        this->g_nSize=(pDevice->size())-(this->g_nOffset);
     }
 
     ui->lineEditOffset->setValue32_64(this->g_nOffset);
-    ui->lineEditSize->setValue32_64(this->nSize);
+    ui->lineEditSize->setValue32_64(this->g_nSize);
 
     if(bAuto)
     {
-        SubDevice subDevice(pDevice,this->g_nOffset,this->nSize);
+        SubDevice subDevice(pDevice,this->g_nOffset,this->g_nSize);
 
         if(subDevice.open(QIODevice::ReadOnly))
         {
@@ -85,20 +85,20 @@ void XHashWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool
 
 void XHashWidget::reload()
 {
-    hashData.hash=(XBinary::HASH)ui->comboBoxMethod->currentData().toInt();
-    hashData.fileType=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
-    hashData.nOffset=g_nOffset;
-    hashData.nSize=nSize;
+    g_hashData.hash=(XBinary::HASH)ui->comboBoxMethod->currentData().toInt();
+    g_hashData.fileType=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
+    g_hashData.nOffset=g_nOffset;
+    g_hashData.nSize=g_nSize;
 
-    DialogHashProcess dhp(g_pParent,g_pDevice,&hashData);
+    DialogHashProcess dhp(g_pParent,g_pDevice,&g_hashData);
 
     if(dhp.exec()==QDialog::Accepted)
     {
-        ui->lineEditHash->setText(hashData.sHash);
+        ui->lineEditHash->setText(g_hashData.sHash);
 
         ui->tableWidgetRegions->clear();
 
-        int nNumberOfMemoryRecords=hashData.listMemoryRecords.count();
+        int nNumberOfMemoryRecords=g_hashData.listMemoryRecords.count();
 
         QStringList slHeader;
         slHeader.append(tr("Name"));
@@ -116,27 +116,27 @@ void XHashWidget::reload()
         {
             QTableWidgetItem *pItemName=new QTableWidgetItem;
 
-            pItemName->setText(hashData.listMemoryRecords.at(i).sName);
-            pItemName->setData(Qt::UserRole+0,hashData.listMemoryRecords.at(i).nOffset);
-            pItemName->setData(Qt::UserRole+1,hashData.listMemoryRecords.at(i).nSize);
+            pItemName->setText(g_hashData.listMemoryRecords.at(i).sName);
+            pItemName->setData(Qt::UserRole+0,g_hashData.listMemoryRecords.at(i).nOffset);
+            pItemName->setData(Qt::UserRole+1,g_hashData.listMemoryRecords.at(i).nSize);
 
             ui->tableWidgetRegions->setItem(i,0,pItemName);
 
             QTableWidgetItem *pItemOffset=new QTableWidgetItem;
 
-            pItemOffset->setText(XLineEditHEX::getFormatString(hashData.mode,hashData.listMemoryRecords.at(i).nOffset));
+            pItemOffset->setText(XLineEditHEX::getFormatString(g_hashData.mode,g_hashData.listMemoryRecords.at(i).nOffset));
             pItemOffset->setTextAlignment(Qt::AlignRight);
             ui->tableWidgetRegions->setItem(i,1,pItemOffset);
 
             QTableWidgetItem *pItemSize=new QTableWidgetItem;
 
-            pItemSize->setText(XLineEditHEX::getFormatString(hashData.mode,hashData.listMemoryRecords.at(i).nSize));
+            pItemSize->setText(XLineEditHEX::getFormatString(g_hashData.mode,g_hashData.listMemoryRecords.at(i).nSize));
             pItemSize->setTextAlignment(Qt::AlignRight);
             ui->tableWidgetRegions->setItem(i,2,pItemSize);
 
             QTableWidgetItem *pItemHash=new QTableWidgetItem;
 
-            QString sHash=hashData.listMemoryRecords.at(i).sHash;
+            QString sHash=g_hashData.listMemoryRecords.at(i).sHash;
 
             pItemHash->setText(sHash);
             pItemHash->setTextAlignment(Qt::AlignLeft);
@@ -148,7 +148,7 @@ void XHashWidget::reload()
         ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Interactive);
         ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Stretch);
 
-        qint32 nColumnSize=XLineEditHEX::getWidthFromMode(this,hashData.mode);
+        qint32 nColumnSize=XLineEditHEX::getWidthFromMode(this,g_hashData.mode);
 
         ui->tableWidgetRegions->setColumnWidth(0,150);
         ui->tableWidgetRegions->setColumnWidth(1,nColumnSize);

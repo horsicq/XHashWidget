@@ -21,7 +21,6 @@
 #ifndef XHASHWIDGET_H
 #define XHASHWIDGET_H
 
-#include <QWidget>
 #include <QStandardItemModel>
 #include <QItemSelection>
 #include <QImageWriter>
@@ -55,9 +54,9 @@ private:
     Ui::XHashWidget *ui;
     QWidget *g_pParent;
     QIODevice *g_pDevice;
-    qint64 nOffset;
-    qint64 nSize;
-    HashProcess::DATA hashData;
+    qint64 g_nOffset;
+    qint64 g_nSize;
+    HashProcess::DATA g_hashData;
 };
 
 #endif // XHASHWIDGET_H
