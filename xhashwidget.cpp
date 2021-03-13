@@ -52,21 +52,21 @@ XHashWidget::~XHashWidget()
 void XHashWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool bAuto, QWidget *pParent)
 {
     this->g_pDevice=pDevice;
-    this->nOffset=nOffset;
+    this->g_nOffset=nOffset;
     this->nSize=nSize;
     this->g_pParent=pParent;
 
     if(this->nSize==-1)
     {
-        this->nSize=(pDevice->size())-(this->nOffset);
+        this->nSize=(pDevice->size())-(this->g_nOffset);
     }
 
-    ui->lineEditOffset->setValue32_64(this->nOffset);
+    ui->lineEditOffset->setValue32_64(this->g_nOffset);
     ui->lineEditSize->setValue32_64(this->nSize);
 
     if(bAuto)
     {
-        SubDevice subDevice(pDevice,this->nOffset,this->nSize);
+        SubDevice subDevice(pDevice,this->g_nOffset,this->nSize);
 
         if(subDevice.open(QIODevice::ReadOnly))
         {
@@ -87,7 +87,7 @@ void XHashWidget::reload()
 {
     hashData.hash=(XBinary::HASH)ui->comboBoxMethod->currentData().toInt();
     hashData.fileType=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
-    hashData.nOffset=nOffset;
+    hashData.nOffset=g_nOffset;
     hashData.nSize=nSize;
 
     DialogHashProcess dhp(g_pParent,g_pDevice,&hashData);
