@@ -23,6 +23,7 @@
 
 #include <QDialog>
 #include "xshortcuts.h"
+#include "xhashwidget.h"
 
 namespace Ui {
 class DialogHash;
@@ -33,7 +34,7 @@ class DialogHash : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogHash(QWidget *pParent,QIODevice *pDevice,qint64 nOffset=0,qint64 nSize=-1);
+    explicit DialogHash(QWidget *pParent,QIODevice *pDevice,XBinary::FT fileType,qint64 nOffset=0,qint64 nSize=-1);
     ~DialogHash();
     void setShortcuts(XShortcuts *pShortcuts);
 

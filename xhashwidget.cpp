@@ -49,7 +49,7 @@ XHashWidget::~XHashWidget()
     delete ui;
 }
 
-void XHashWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool bAuto, QWidget *pParent)
+void XHashWidget::setData(QIODevice *pDevice,XBinary::FT fileType, qint64 nOffset, qint64 nSize, bool bAuto, QWidget *pParent)
 {
     this->g_pDevice=pDevice;
     this->g_nOffset=nOffset;
@@ -74,7 +74,7 @@ void XHashWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool
             stFileType.insert(XBinary::FT_COM);
             QList<XBinary::FT> listFileTypes=XBinary::_getFileTypeListFromSet(stFileType);
 
-            XFormats::setFileTypeComboBox(ui->comboBoxType,&listFileTypes,XBinary::FT_UNKNOWN);
+            XFormats::setFileTypeComboBox(ui->comboBoxType,&listFileTypes,fileType);
 
             reload();
 

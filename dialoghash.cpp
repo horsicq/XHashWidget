@@ -21,7 +21,7 @@
 #include "dialoghash.h"
 #include "ui_dialoghash.h"
 
-DialogHash::DialogHash(QWidget *pParent, QIODevice *pDevice, qint64 nOffset, qint64 nSize) :
+DialogHash::DialogHash(QWidget *pParent, QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize) :
     QDialog(pParent),
     ui(new Ui::DialogHash)
 {
@@ -29,7 +29,7 @@ DialogHash::DialogHash(QWidget *pParent, QIODevice *pDevice, qint64 nOffset, qin
 
     setWindowFlags(Qt::Window);
 
-    ui->widgetHash->setData(pDevice,nOffset,nSize,true);
+    ui->widgetHash->setData(pDevice,fileType,nOffset,nSize,true);
 }
 
 DialogHash::~DialogHash()
