@@ -31,7 +31,11 @@ XHashWidget::XHashWidget(QWidget *pParent) :
 
     g_hashData={};
 
+#if QT_VERSION >= 0x050300
     const QSignalBlocker blocker(ui->comboBoxMethod);
+#else
+    const bool bBlocked1=ui->comboBoxMethod->blockSignals(true);
+#endif
 
     QList<XBinary::HASH> listHashMethods=XBinary::getHashMethodsAsList();
 
@@ -42,6 +46,10 @@ XHashWidget::XHashWidget(QWidget *pParent) :
         XBinary::HASH hash=listHashMethods.at(i);
         ui->comboBoxMethod->addItem(XBinary::hashIdToString(hash),hash);
     }
+
+#if QT_VERSION < 0x050300
+    ui->comboBoxMethod->blockSignals(bBlocked1);
+#endif
 }
 
 XHashWidget::~XHashWidget()
