@@ -96,6 +96,50 @@ void HashProcess::process()
         }
     }
 
+    if(XBinary::checkFileType(XBinary::FT_PE,g_pData->fileType))
+    {
+        XPE pe(this->g_pDevice);
+
+        {
+            MEMORY_RECORD memoryRecord={};
+
+            memoryRecord.sName=QString("Import hash 32(CRC)");
+            memoryRecord.nOffset=-1;
+            memoryRecord.nSize=-1;
+            memoryRecord.sHash=XBinary::valueToHex(pe.getImportHash32(&memoryMap));
+
+            g_pData->listMemoryRecords.append(memoryRecord);
+        }
+
+        {
+            MEMORY_RECORD memoryRecord={};
+
+            memoryRecord.sName=QString("Import hash 64(CRC)");
+            memoryRecord.nOffset=-1;
+            memoryRecord.nSize=-1;
+            memoryRecord.sHash=XBinary::valueToHex(pe.getImportHash64(&memoryMap));
+
+            g_pData->listMemoryRecords.append(memoryRecord);
+        }
+
+        QList<XPE::IMPORT_HEADER> listImports=pe.getImports(&memoryMap);
+        QList<quint32> listHashes=pe.getImportPositionHashes(&listImports);
+
+        int nNumberOfImports=listImports.count();
+
+        for(int i=0;i<nNumberOfImports;i++)
+        {
+            MEMORY_RECORD memoryRecord={};
+
+            memoryRecord.sName=QString("Import(%1)(CRC)['%2']").arg(i).arg(listImports.at(i).sName);
+            memoryRecord.nOffset=-1;
+            memoryRecord.nSize=-1;
+            memoryRecord.sHash=XBinary::valueToHex(listHashes.at(i));
+
+            g_pData->listMemoryRecords.append(memoryRecord);
+        }
+    }
+
     g_bIsStop=false;
 
     emit completed(scanTimer.elapsed());

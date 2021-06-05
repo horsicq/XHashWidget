@@ -130,17 +130,23 @@ void XHashWidget::reload()
 
             ui->tableWidgetRegions->setItem(i,0,pItemName);
 
-            QTableWidgetItem *pItemOffset=new QTableWidgetItem;
+            if(g_hashData.listMemoryRecords.at(i).nOffset!=-1)
+            {
+                QTableWidgetItem *pItemOffset=new QTableWidgetItem;
 
-            pItemOffset->setText(XLineEditHEX::getFormatString(g_hashData.mode,g_hashData.listMemoryRecords.at(i).nOffset));
-            pItemOffset->setTextAlignment(Qt::AlignRight);
-            ui->tableWidgetRegions->setItem(i,1,pItemOffset);
+                pItemOffset->setText(XLineEditHEX::getFormatString(g_hashData.mode,g_hashData.listMemoryRecords.at(i).nOffset));
+                pItemOffset->setTextAlignment(Qt::AlignRight);
+                ui->tableWidgetRegions->setItem(i,1,pItemOffset);
+            }
 
-            QTableWidgetItem *pItemSize=new QTableWidgetItem;
+            if(g_hashData.listMemoryRecords.at(i).nSize!=-1)
+            {
+                QTableWidgetItem *pItemSize=new QTableWidgetItem;
 
-            pItemSize->setText(XLineEditHEX::getFormatString(g_hashData.mode,g_hashData.listMemoryRecords.at(i).nSize));
-            pItemSize->setTextAlignment(Qt::AlignRight);
-            ui->tableWidgetRegions->setItem(i,2,pItemSize);
+                pItemSize->setText(XLineEditHEX::getFormatString(g_hashData.mode,g_hashData.listMemoryRecords.at(i).nSize));
+                pItemSize->setTextAlignment(Qt::AlignRight);
+                ui->tableWidgetRegions->setItem(i,2,pItemSize);
+            }
 
             QTableWidgetItem *pItemHash=new QTableWidgetItem;
 
