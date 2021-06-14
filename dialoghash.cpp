@@ -39,6 +39,7 @@ DialogHash::~DialogHash()
 
 void DialogHash::setShortcuts(XShortcuts *pShortcuts)
 {
+    Q_UNUSED(pShortcuts)
     // TODO
 }
 

@@ -191,5 +191,6 @@ void XHashWidget::on_comboBoxMethod_currentIndexChanged(int nIndex)
 
 void XHashWidget::registerShortcuts(bool bState)
 {
+    Q_UNUSED(bState)
     // TODO
 }
