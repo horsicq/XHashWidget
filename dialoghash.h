@@ -34,8 +34,9 @@ class DialogHash : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogHash(QWidget *pParent,QIODevice *pDevice,XBinary::FT fileType,qint64 nOffset=0,qint64 nSize=-1);
+    explicit DialogHash(QWidget *pParent);
     ~DialogHash();
+    void setData(QIODevice *pDevice,XBinary::FT fileType,qint64 nOffset=0,qint64 nSize=-1);
     void setShortcuts(XShortcuts *pShortcuts);
 
 private slots:

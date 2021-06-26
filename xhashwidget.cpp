@@ -27,8 +27,6 @@ XHashWidget::XHashWidget(QWidget *pParent) :
 {
     ui->setupUi(this);
 
-    this->g_pParent=pParent;
-
     g_hashData={};
 
 #if QT_VERSION >= 0x050300
@@ -57,12 +55,11 @@ XHashWidget::~XHashWidget()
     delete ui;
 }
 
-void XHashWidget::setData(QIODevice *pDevice,XBinary::FT fileType, qint64 nOffset, qint64 nSize, bool bAuto, QWidget *pParent)
+void XHashWidget::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize, bool bAuto)
 {
     this->g_pDevice=pDevice;
     this->g_nOffset=nOffset;
     this->g_nSize=nSize;
-    this->g_pParent=pParent;
 
     if(this->g_nSize==-1)
     {
@@ -98,7 +95,7 @@ void XHashWidget::reload()
     g_hashData.nOffset=g_nOffset;
     g_hashData.nSize=g_nSize;
 
-    DialogHashProcess dhp(g_pParent,g_pDevice,&g_hashData);
+    DialogHashProcess dhp(this,g_pDevice,&g_hashData);
 
     if(dhp.exec()==QDialog::Accepted)
     {

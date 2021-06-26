@@ -39,7 +39,7 @@ class XHashWidget : public XShortcutsWidget
 public:
     explicit XHashWidget(QWidget *pParent=nullptr);
     ~XHashWidget();
-    void setData(QIODevice *pDevice,XBinary::FT fileType,qint64 nOffset,qint64 nSize,bool bAuto=false,QWidget *pParent=nullptr);
+    void setData(QIODevice *pDevice,XBinary::FT fileType,qint64 nOffset,qint64 nSize,bool bAuto=false);
     void reload();
 
 private slots:
@@ -52,7 +52,6 @@ protected:
 
 private:
     Ui::XHashWidget *ui;
-    QWidget *g_pParent;
     QIODevice *g_pDevice;
     qint64 g_nOffset;
     qint64 g_nSize;

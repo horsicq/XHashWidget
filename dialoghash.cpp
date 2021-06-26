@@ -21,20 +21,23 @@
 #include "dialoghash.h"
 #include "ui_dialoghash.h"
 
-DialogHash::DialogHash(QWidget *pParent, QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize) :
+DialogHash::DialogHash(QWidget *pParent) :
     QDialog(pParent),
     ui(new Ui::DialogHash)
 {
     ui->setupUi(this);
 
     setWindowFlags(Qt::Window);
-
-    ui->widgetHash->setData(pDevice,fileType,nOffset,nSize,true);
 }
 
 DialogHash::~DialogHash()
 {
     delete ui;
+}
+
+void DialogHash::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize)
+{
+    ui->widgetHash->setData(pDevice,fileType,nOffset,nSize,true);
 }
 
 void DialogHash::setShortcuts(XShortcuts *pShortcuts)
