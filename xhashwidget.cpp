@@ -95,7 +95,7 @@ void XHashWidget::reload()
     g_hashData.nOffset=g_nOffset;
     g_hashData.nSize=g_nSize;
 
-    DialogHashProcess dhp(XHashWidget::getMainWidget(this),g_pDevice,&g_hashData);
+    DialogHashProcess dhp(XOptions::getMainWidget(this),g_pDevice,&g_hashData);
 
     if(dhp.exec()==QDialog::Accepted)
     {
