@@ -24,6 +24,7 @@
 #include <QStandardItemModel>
 #include <QItemSelection>
 #include <QImageWriter>
+#include <QFileDialog>
 #include "xformats.h"
 #include "dialoghashprocess.h"
 #include "xshortcutswidget.h"
@@ -46,6 +47,7 @@ private slots:
     void on_pushButtonReload_clicked();
     void on_comboBoxType_currentIndexChanged(int nIndex);
     void on_comboBoxMethod_currentIndexChanged(int nIndex);
+    void on_pushButtonSave_clicked();
 
 protected:
     virtual void registerShortcuts(bool bState);

@@ -191,3 +191,17 @@ void XHashWidget::registerShortcuts(bool bState)
     Q_UNUSED(bState)
     // TODO
 }
+
+void XHashWidget::on_pushButtonSave_clicked()
+{
+    QString sFileName=XBinary::getResultFileName(g_pDevice,"hash.txt"); // TODO
+
+    sFileName=QFileDialog::getSaveFileName(this,tr("Save"),sFileName,QString("%1 (*.txt);;%2 (*)").arg(tr("Text files")).arg(tr("All files")));
+
+    if(!sFileName.isEmpty())
+    {
+        QAbstractItemModel *pModel=ui->tableWidgetRegions->model();
+
+        XOptions::saveTable(pModel,sFileName);
+    }
+}

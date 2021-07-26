@@ -176,6 +176,13 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="pushButtonSave">
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="pushButtonReload">
        <property name="text">
         <string>Reload</string>
