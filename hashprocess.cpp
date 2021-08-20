@@ -131,7 +131,7 @@ void HashProcess::process()
         {
             MEMORY_RECORD memoryRecord={};
 
-            memoryRecord.sName=QString("Import(%1)(CRC)['%2']").arg(i).arg(listImports.at(i).sName);
+            memoryRecord.sName=QString("Import(%1)(CRC)['%2']").arg(QString::number(i),listImports.at(i).sName);
             memoryRecord.nOffset=-1;
             memoryRecord.nSize=-1;
             memoryRecord.sHash=XBinary::valueToHex(listHashes.at(i));
