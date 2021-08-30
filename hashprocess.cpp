@@ -103,7 +103,7 @@ void HashProcess::process()
         {
             MEMORY_RECORD memoryRecord={};
 
-            memoryRecord.sName=QString("Import hash 32(CRC)");
+            memoryRecord.sName=QString("%1 32(CRC)").arg(tr("Import"));
             memoryRecord.nOffset=-1;
             memoryRecord.nSize=-1;
             memoryRecord.sHash=XBinary::valueToHex(pe.getImportHash32(&memoryMap));
@@ -114,7 +114,7 @@ void HashProcess::process()
         {
             MEMORY_RECORD memoryRecord={};
 
-            memoryRecord.sName=QString("Import hash 64(CRC)");
+            memoryRecord.sName=QString("%1 64(CRC)").arg(tr("Import"));
             memoryRecord.nOffset=-1;
             memoryRecord.nSize=-1;
             memoryRecord.sHash=XBinary::valueToHex(pe.getImportHash64(&memoryMap));
@@ -131,7 +131,7 @@ void HashProcess::process()
         {
             MEMORY_RECORD memoryRecord={};
 
-            memoryRecord.sName=QString("Import(%1)(CRC)['%2']").arg(QString::number(i),listImports.at(i).sName);
+            memoryRecord.sName=QString("%1(%2)(CRC)['%2']").arg(tr("Import"),QString::number(i),listImports.at(i).sName);
             memoryRecord.nOffset=-1;
             memoryRecord.nSize=-1;
             memoryRecord.sHash=XBinary::valueToHex(listHashes.at(i));

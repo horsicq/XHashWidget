@@ -194,7 +194,7 @@ void XHashWidget::registerShortcuts(bool bState)
 
 void XHashWidget::on_pushButtonSave_clicked()
 {
-    QString sFileName=XBinary::getResultFileName(g_pDevice,QString("%1.txt").arg(tr("Hash"))); // TODO
+    QString sFileName=XBinary::getResultFileName(g_pDevice,QString("%1.txt").arg(tr("Hash")));
 
     sFileName=QFileDialog::getSaveFileName(this,tr("Save"),sFileName,QString("%1 (*.txt);;%2 (*)").arg(tr("Text files"),tr("All files")));
 
