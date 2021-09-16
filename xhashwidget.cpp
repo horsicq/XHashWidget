@@ -202,6 +202,6 @@ void XHashWidget::on_pushButtonSave_clicked()
     {
         QAbstractItemModel *pModel=ui->tableWidgetRegions->model();
 
-        XOptions::saveTable(pModel,sFileName);
+        XOptions::saveModel(pModel,sFileName);
     }
 }
