@@ -21,10 +21,10 @@
 #ifndef XHASHWIDGET_H
 #define XHASHWIDGET_H
 
-#include <QStandardItemModel>
-#include <QItemSelection>
-#include <QImageWriter>
 #include <QFileDialog>
+#include <QImageWriter>
+#include <QItemSelection>
+#include <QStandardItemModel>
 #include "xformats.h"
 #include "dialoghashprocess.h"
 #include "xshortcutswidget.h"
