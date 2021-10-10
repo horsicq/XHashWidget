@@ -25,6 +25,7 @@
 #include <QMessageBox>
 #include <QThread>
 #include "hashprocess.h"
+#include "xoptions.h"
 
 namespace Ui {
 class DialogHashProcess;

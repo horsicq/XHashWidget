@@ -67,7 +67,7 @@ void DialogHashProcess::on_pushButtonCancel_clicked()
 
 void DialogHashProcess::errorMessage(QString sText)
 {
-    QMessageBox::critical(this,tr("Error"),sText);
+    QMessageBox::critical(XOptions::getMainWidget(this),tr("Error"),sText);
 }
 
 void DialogHashProcess::onCompleted(qint64 nElapsed)
