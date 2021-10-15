@@ -1,1 +1,3 @@
 # XHashWidget
+
+Widget for Hash
