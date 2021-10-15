@@ -25,8 +25,8 @@
 #include <QImageWriter>
 #include <QItemSelection>
 #include <QStandardItemModel>
-#include "xformats.h"
 #include "dialoghashprocess.h"
+#include "xformats.h"
 #include "xshortcutswidget.h"
 
 namespace Ui {
