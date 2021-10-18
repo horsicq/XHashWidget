@@ -22,8 +22,8 @@
 #define DIALOGHASH_H
 
 #include <QDialog>
-#include "xshortcuts.h"
 #include "xhashwidget.h"
+#include "xshortcuts.h"
 
 namespace Ui {
 class DialogHash;
