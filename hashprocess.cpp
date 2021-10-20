@@ -70,7 +70,7 @@ void HashProcess::process()
 
     int nNumberOfRecords=memoryMap.listRecords.count();
 
-    for(int i=0,j=0;i<nNumberOfRecords;i++)
+    for(qint32 i=0,j=0;i<nNumberOfRecords;i++)
     {
         bool bIsVirtual=memoryMap.listRecords.at(i).bIsVirtual;
 
