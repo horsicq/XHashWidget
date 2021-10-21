@@ -128,7 +128,7 @@ void HashProcess::process()
 
         int nNumberOfImports=listImports.count();
 
-        for(int i=0;i<nNumberOfImports;i++)
+        for(qint32 i=0;i<nNumberOfImports;i++)
         {
             MEMORY_RECORD memoryRecord={};
 
