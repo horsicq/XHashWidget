@@ -39,7 +39,7 @@ XHashWidget::XHashWidget(QWidget *pParent) :
 
     int nNumberOfMethods=listHashMethods.count();
 
-    for(int i=0;i<nNumberOfMethods;i++)
+    for(qint32 i=0;i<nNumberOfMethods;i++)
     {
         XBinary::HASH hash=listHashMethods.at(i);
         ui->comboBoxMethod->addItem(XBinary::hashIdToString(hash),hash);
