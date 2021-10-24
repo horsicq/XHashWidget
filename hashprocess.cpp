@@ -126,7 +126,7 @@ void HashProcess::process()
         QList<XPE::IMPORT_HEADER> listImports=pe.getImports(&memoryMap);
         QList<quint32> listHashes=pe.getImportPositionHashes(&listImports);
 
-        int nNumberOfImports=listImports.count();
+        qint32 nNumberOfImports=listImports.count();
 
         for(qint32 i=0;i<nNumberOfImports;i++)
         {
