@@ -37,7 +37,7 @@ XHashWidget::XHashWidget(QWidget *pParent) :
 
     QList<XBinary::HASH> listHashMethods=XBinary::getHashMethodsAsList();
 
-    int nNumberOfMethods=listHashMethods.count();
+    qint32 nNumberOfMethods=listHashMethods.count();
 
     for(qint32 i=0;i<nNumberOfMethods;i++)
     {
