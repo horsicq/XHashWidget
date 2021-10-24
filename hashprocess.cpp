@@ -68,7 +68,7 @@ void HashProcess::process()
     else if (_mode==XBinary::MODE_32)   g_pData->mode=XLineEditHEX::MODE_32;
     else if (_mode==XBinary::MODE_64)   g_pData->mode=XLineEditHEX::MODE_64;
 
-    int nNumberOfRecords=memoryMap.listRecords.count();
+    qint32 nNumberOfRecords=memoryMap.listRecords.count();
 
     for(qint32 i=0,j=0;i<nNumberOfRecords;i++)
     {

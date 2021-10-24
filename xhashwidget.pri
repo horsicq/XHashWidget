@@ -30,4 +30,5 @@ FORMS += \
 
 DISTFILES += \
     $$PWD/LICENSE \
-    $$PWD/README.md
+    $$PWD/README.md \
+    $$PWD/xhashwidget.cmake
