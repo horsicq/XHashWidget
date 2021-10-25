@@ -99,7 +99,7 @@ void XHashWidget::reload()
 
         ui->tableWidgetRegions->clear();
 
-        int nNumberOfMemoryRecords=g_hashData.listMemoryRecords.count();
+        qint32 nNumberOfMemoryRecords=g_hashData.listMemoryRecords.count();
 
         QStringList slHeader;
         slHeader.append(tr("Name"));
