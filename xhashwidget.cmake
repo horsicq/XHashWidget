@@ -1,5 +1,7 @@
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
+# TODO
+
 set(XHASHWIDGET_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/dialoghashprocess.cpp
     ${CMAKE_CURRENT_LIST_DIR}/hashprocess.cpp
