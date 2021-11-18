@@ -40,9 +40,9 @@ void DialogHash::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffse
     ui->widgetHash->setData(pDevice,fileType,nOffset,nSize,true);
 }
 
-void DialogHash::setShortcuts(XShortcuts *pShortcuts)
+void DialogHash::setGlobal(XShortcuts *pShortcuts,XOptions *pXOptions)
 {
-    ui->widgetHash->setShortcuts(pShortcuts);
+    ui->widgetHash->setGlobal(pShortcuts,pXOptions);
 }
 
 void DialogHash::on_pushButtonClose_clicked()

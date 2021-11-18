@@ -37,7 +37,7 @@ public:
     explicit DialogHash(QWidget *pParent);
     ~DialogHash();
     void setData(QIODevice *pDevice,XBinary::FT fileType,qint64 nOffset=0,qint64 nSize=-1);
-    void setShortcuts(XShortcuts *pShortcuts);
+    void setGlobal(XShortcuts *pShortcuts,XOptions *pXOptions);
 
 private slots:
     void on_pushButtonClose_clicked();
