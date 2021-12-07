@@ -21,8 +21,8 @@
 #ifndef HASHPROCESS_H
 #define HASHPROCESS_H
 
-#include "xlineedithex.h"
 #include "xformats.h"
+#include "xlineedithex.h"
 
 class HashProcess : public QObject
 {
