@@ -185,19 +185,10 @@ void XHashWidget::on_comboBoxMethod_currentIndexChanged(int nIndex)
 void XHashWidget::registerShortcuts(bool bState)
 {
     Q_UNUSED(bState)
-    // TODO
+    // TODO !!!
 }
 
 void XHashWidget::on_pushButtonSave_clicked()
 {
-    QString sFileName=XBinary::getResultFileName(g_pDevice,QString("%1.txt").arg(tr("Hash")));
-
-    sFileName=QFileDialog::getSaveFileName(this,tr("Save"),sFileName,QString("%1 (*.txt);;%2 (*)").arg(tr("Text files"),tr("All files")));
-
-    if(!sFileName.isEmpty())
-    {
-        QAbstractItemModel *pModel=ui->tableWidgetRegions->model();
-
-        XOptions::saveModel(pModel,sFileName);
-    }
+    XShortcutsWidget::saveModel(ui->tableWidgetRegions->model(),XBinary::getResultFileName(g_pDevice,QString("%1.txt").arg(tr("Hash"))));
 }
