@@ -101,43 +101,48 @@ void HashProcess::process()
     {
         XPE pe(this->g_pDevice);
 
+        if(pe.isValid())
         {
-            MEMORY_RECORD memoryRecord={};
+            QList<XPE::IMPORT_RECORD> listImportRecords=pe.getImportRecords(&memoryMap);
 
-            memoryRecord.sName=QString("%1 32(CRC)").arg(tr("Import"));
-            memoryRecord.nOffset=-1;
-            memoryRecord.nSize=-1;
-            memoryRecord.sHash=XBinary::valueToHex(pe.getImportHash32(&memoryMap));
+            {
+                MEMORY_RECORD memoryRecord={};
 
-            g_pData->listMemoryRecords.append(memoryRecord);
-        }
+                memoryRecord.sName=QString("%1 32(CRC)").arg(tr("Import"));
+                memoryRecord.nOffset=-1;
+                memoryRecord.nSize=-1;
+                memoryRecord.sHash=XBinary::valueToHex(pe.getImportHash32(&listImportRecords));
 
-        {
-            MEMORY_RECORD memoryRecord={};
+                g_pData->listMemoryRecords.append(memoryRecord);
+            }
 
-            memoryRecord.sName=QString("%1 64(CRC)").arg(tr("Import"));
-            memoryRecord.nOffset=-1;
-            memoryRecord.nSize=-1;
-            memoryRecord.sHash=XBinary::valueToHex(pe.getImportHash64(&memoryMap));
+            {
+                MEMORY_RECORD memoryRecord={};
 
-            g_pData->listMemoryRecords.append(memoryRecord);
-        }
+                memoryRecord.sName=QString("%1 64(CRC)").arg(tr("Import"));
+                memoryRecord.nOffset=-1;
+                memoryRecord.nSize=-1;
+                memoryRecord.sHash=XBinary::valueToHex(pe.getImportHash64(&listImportRecords));
 
-        QList<XPE::IMPORT_HEADER> listImports=pe.getImports(&memoryMap);
-        QList<quint32> listHashes=pe.getImportPositionHashes(&listImports);
+                g_pData->listMemoryRecords.append(memoryRecord);
+            }
 
-        qint32 nNumberOfImports=listImports.count();
+            QList<XPE::IMPORT_HEADER> listImports=pe.getImports(&memoryMap);
+            QList<quint32> listHashes=pe.getImportPositionHashes(&listImports);
 
-        for(qint32 i=0;i<nNumberOfImports;i++)
-        {
-            MEMORY_RECORD memoryRecord={};
+            qint32 nNumberOfImports=listImports.count();
 
-            memoryRecord.sName=QString("%1(%2)(CRC)['%3']").arg(tr("Import"),QString::number(i),listImports.at(i).sName);
-            memoryRecord.nOffset=-1;
-            memoryRecord.nSize=-1;
-            memoryRecord.sHash=XBinary::valueToHex(listHashes.at(i));
+            for(qint32 i=0;i<nNumberOfImports;i++)
+            {
+                MEMORY_RECORD memoryRecord={};
 
-            g_pData->listMemoryRecords.append(memoryRecord);
+                memoryRecord.sName=QString("%1(%2)(CRC)['%3']").arg(tr("Import"),QString::number(i),listImports.at(i).sName);
+                memoryRecord.nOffset=-1;
+                memoryRecord.nSize=-1;
+                memoryRecord.sHash=XBinary::valueToHex(listHashes.at(i));
+
+                g_pData->listMemoryRecords.append(memoryRecord);
+            }
         }
     }
 
