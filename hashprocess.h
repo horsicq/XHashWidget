@@ -50,6 +50,7 @@ public:
     };
 
     explicit HashProcess(QObject *pParent=nullptr);
+
     void setData(QIODevice *pDevice,DATA *pData);
 
 signals:
