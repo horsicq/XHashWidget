@@ -36,6 +36,7 @@ class DialogHash : public QDialog
 public:
     explicit DialogHash(QWidget *pParent);
     ~DialogHash();
+
     void setData(QIODevice *pDevice,XBinary::FT fileType,qint64 nOffset=0,qint64 nSize=-1);
     void setGlobal(XShortcuts *pShortcuts,XOptions *pXOptions);
 
