@@ -1,3 +1,3 @@
 # XHashWidget
 
-Widget for Hash
+Widget for Hash calculation
