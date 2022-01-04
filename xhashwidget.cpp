@@ -27,6 +27,9 @@ XHashWidget::XHashWidget(QWidget *pParent) :
 {
     ui->setupUi(this);
 
+    g_pDevice=nullptr;
+    g_nOffset=0;
+    g_nSize=0;
     g_hashData={};
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,3,0)
@@ -69,18 +72,18 @@ void XHashWidget::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffs
     ui->lineEditOffset->setValue32_64(this->g_nOffset);
     ui->lineEditSize->setValue32_64(this->g_nSize);
 
+    SubDevice subDevice(pDevice,this->g_nOffset,this->g_nSize);
+
+    if(subDevice.open(QIODevice::ReadOnly))
+    {
+        XFormats::setFileTypeComboBox(fileType,&subDevice,ui->comboBoxType);
+
+        subDevice.close();
+    }
+
     if(bAuto)
     {
-        SubDevice subDevice(pDevice,this->g_nOffset,this->g_nSize);
-
-        if(subDevice.open(QIODevice::ReadOnly))
-        {
-            XFormats::setFileTypeComboBox(fileType,g_pDevice,ui->comboBoxType);
-
-            reload();
-
-            subDevice.close();
-        }
+        reload();
     }
 }
 
