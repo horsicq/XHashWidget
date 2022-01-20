@@ -62,7 +62,7 @@ void HashProcess::process()
 
     XBinary::MODE _mode=XBinary::getWidthModeFromMemoryMap(&memoryMap);
 
-    // TODO a function
+    // TODO a function !!!
     if      (_mode==XBinary::MODE_8)    g_pData->mode=XLineEditHEX::MODE_8;
     else if (_mode==XBinary::MODE_16)   g_pData->mode=XLineEditHEX::MODE_16;
     else if (_mode==XBinary::MODE_32)   g_pData->mode=XLineEditHEX::MODE_32;
