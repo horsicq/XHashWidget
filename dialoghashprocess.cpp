@@ -35,11 +35,11 @@ DialogHashProcess::DialogHashProcess(QWidget *pParent, QIODevice *pDevice, HashP
     g_pHashProcess->moveToThread(g_pThread);
 
     connect(g_pThread,SIGNAL(started()),g_pHashProcess,SLOT(process()));
-    connect(g_pHashProcess, SIGNAL(completed(qint64)), this, SLOT(onCompleted(qint64)));
-    connect(g_pHashProcess, SIGNAL(errorMessage(QString)), this, SLOT(errorMessage(QString)));
-    connect(g_pHashProcess, SIGNAL(progressValueChanged(qint32)), this, SLOT(progressValueChanged(qint32)));
-    connect(g_pHashProcess, SIGNAL(progressValueMinimum(qint32)), this, SLOT(progressValueMinimum(qint32)));
-    connect(g_pHashProcess, SIGNAL(progressValueMaximum(qint32)), this, SLOT(progressValueMaximum(qint32)));
+    connect(g_pHashProcess,SIGNAL(completed(qint64)),this,SLOT(onCompleted(qint64)));
+    connect(g_pHashProcess,SIGNAL(errorMessage(QString)),this,SLOT(errorMessage(QString)));
+    connect(g_pHashProcess,SIGNAL(progressValueChanged(qint32)),this,SLOT(progressValueChanged(qint32)));
+    connect(g_pHashProcess,SIGNAL(progressValueMinimum(qint32)),this,SLOT(progressValueMinimum(qint32)));
+    connect(g_pHashProcess,SIGNAL(progressValueMaximum(qint32)),this,SLOT(progressValueMaximum(qint32)));
 
     g_pHashProcess->setData(pDevice,pData);
     g_pThread->start();
