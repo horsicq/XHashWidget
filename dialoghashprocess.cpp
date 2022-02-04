@@ -21,7 +21,7 @@
 #include "dialoghashprocess.h"
 #include "ui_dialoghashprocess.h"
 
-DialogHashProcess::DialogHashProcess(QWidget *pParent, QIODevice *pDevice, HashProcess::DATA *pData) :
+DialogHashProcess::DialogHashProcess(QWidget *pParent) :
     QDialog(pParent),
     ui(new Ui::DialogHashProcess)
 {
@@ -40,9 +40,12 @@ DialogHashProcess::DialogHashProcess(QWidget *pParent, QIODevice *pDevice, HashP
     connect(g_pHashProcess,SIGNAL(progressValueChanged(qint32)),this,SLOT(progressValueChanged(qint32)));
     connect(g_pHashProcess,SIGNAL(progressValueMinimum(qint32)),this,SLOT(progressValueMinimum(qint32)));
     connect(g_pHashProcess,SIGNAL(progressValueMaximum(qint32)),this,SLOT(progressValueMaximum(qint32)));
+}
 
-    g_pHashProcess->setData(pDevice,pData);
-    g_pThread->start();
+DialogHashProcess::DialogHashProcess(QWidget *pParent, QIODevice *pDevice, HashProcess::DATA *pData) :
+    DialogHashProcess(pParent)
+{
+    setData(pDevice,pData);
 }
 
 DialogHashProcess::~DialogHashProcess()
@@ -56,6 +59,12 @@ DialogHashProcess::~DialogHashProcess()
 
     delete g_pThread;
     delete g_pHashProcess;
+}
+
+void DialogHashProcess::setData(QIODevice *pDevice, HashProcess::DATA *pData)
+{
+    g_pHashProcess->setData(pDevice,pData);
+    g_pThread->start();
 }
 
 void DialogHashProcess::on_pushButtonCancel_clicked()

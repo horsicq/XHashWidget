@@ -36,8 +36,11 @@ class DialogHashProcess : public QDialog
     Q_OBJECT
 
 public:
+    explicit DialogHashProcess(QWidget *pParent);
     explicit DialogHashProcess(QWidget *pParent,QIODevice *pDevice,HashProcess::DATA *pData); // TODO setData
     ~DialogHashProcess();
+
+    void setData(QIODevice *pDevice,HashProcess::DATA *pData);
 
 private slots:
     void on_pushButtonCancel_clicked();
