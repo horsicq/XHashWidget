@@ -42,7 +42,7 @@ DialogHashProcess::DialogHashProcess(QWidget *pParent) :
     connect(g_pHashProcess,SIGNAL(progressValueMaximum(qint32)),this,SLOT(progressValueMaximum(qint32)));
 }
 
-DialogHashProcess::DialogHashProcess(QWidget *pParent, QIODevice *pDevice, HashProcess::DATA *pData) :
+DialogHashProcess::DialogHashProcess(QWidget *pParent,QIODevice *pDevice,HashProcess::DATA *pData) :
     DialogHashProcess(pParent)
 {
     setData(pDevice,pData);
