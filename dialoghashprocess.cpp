@@ -61,7 +61,7 @@ DialogHashProcess::~DialogHashProcess()
     delete g_pHashProcess;
 }
 
-void DialogHashProcess::setData(QIODevice *pDevice, HashProcess::DATA *pData)
+void DialogHashProcess::setData(QIODevice *pDevice,HashProcess::DATA *pData)
 {
     g_pHashProcess->setData(pDevice,pData);
     g_pThread->start();
