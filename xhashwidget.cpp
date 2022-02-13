@@ -58,7 +58,7 @@ XHashWidget::~XHashWidget()
     delete ui;
 }
 
-void XHashWidget::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize, bool bAuto)
+void XHashWidget::setData(QIODevice *pDevice,XBinary::FT fileType,qint64 nOffset,qint64 nSize,bool bAuto)
 {
     this->g_pDevice=pDevice;
     this->g_nOffset=nOffset;
