@@ -31,7 +31,7 @@ HashProcess::HashProcess(QObject *pParent) : QObject(pParent)
     connect(&g_binary,SIGNAL(hashProgressMaximumChanged(qint32)),this,SIGNAL(progressValueMaximum(qint32)));
 }
 
-void HashProcess::setData(QIODevice *pDevice, DATA *pData)
+void HashProcess::setData(QIODevice *pDevice,DATA *pData)
 {
     this->g_pDevice=pDevice;
     this->g_pData=pData;
