@@ -48,6 +48,11 @@ XHashWidget::XHashWidget(QWidget *pParent) :
         ui->comboBoxMethod->addItem(XBinary::hashIdToString(hash),hash);
     }
 
+    if(nNumberOfMethods>1)
+    {
+        ui->comboBoxMethod->setCurrentIndex(1); // MD5
+    }
+
 #if QT_VERSION < QT_VERSION_CHECK(5,3,0)
     ui->comboBoxMethod->blockSignals(bBlocked1);
 #endif
