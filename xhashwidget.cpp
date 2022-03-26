@@ -50,7 +50,7 @@ XHashWidget::XHashWidget(QWidget *pParent) :
 
     if(nNumberOfMethods>1)
     {
-        ui->comboBoxMethod->setCurrentIndex(1); // MD5
+        ui->comboBoxMethod->setCurrentIndex(1); // MD5 default
     }
 
 #if QT_VERSION < QT_VERSION_CHECK(5,3,0)
