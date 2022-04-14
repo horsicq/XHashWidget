@@ -22,9 +22,10 @@
 
 HashProcess::HashProcess(QObject *pParent) : QObject(pParent)
 {
-    g_bIsStop=false;
     g_pDevice=nullptr;
     g_pData=nullptr;
+
+    g_bIsStop=false;
 
     connect(&g_binary,SIGNAL(errorMessage(QString)),this,SIGNAL(errorMessage(QString)));
     connect(&g_binary,SIGNAL(hashProgressValueChanged(qint32)),this,SIGNAL(progressValueChanged(qint32)));
