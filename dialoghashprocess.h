@@ -37,7 +37,7 @@ class DialogHashProcess : public QDialog
 
 public:
     explicit DialogHashProcess(QWidget *pParent);
-    explicit DialogHashProcess(QWidget *pParent,QIODevice *pDevice,HashProcess::DATA *pData); // TODO setData
+    explicit DialogHashProcess(QWidget *pParent,QIODevice *pDevice,HashProcess::DATA *pData);
     ~DialogHashProcess();
 
     void setData(QIODevice *pDevice,HashProcess::DATA *pData);
