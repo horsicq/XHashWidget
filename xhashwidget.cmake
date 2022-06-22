@@ -1,8 +1,10 @@
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 # TODO
+include(${CMAKE_CURRENT_LIST_DIR}/../FormatDialogs/xdialogprocess.cmake)
 
 set(XHASHWIDGET_SOURCES
+    ${XDIALOGPROCESS_SOURCES}
     ${CMAKE_CURRENT_LIST_DIR}/dialoghash.cpp
     ${CMAKE_CURRENT_LIST_DIR}/dialoghash.ui
     ${CMAKE_CURRENT_LIST_DIR}/dialoghashprocess.cpp
