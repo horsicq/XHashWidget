@@ -26,12 +26,13 @@
 #include <QThread>
 #include "hashprocess.h"
 #include "xoptions.h"
+#include "xdialogprocess.h"
 
 namespace Ui {
 class DialogHashProcess;
 }
 
-class DialogHashProcess : public QDialog // TODO XDialogProcess
+class DialogHashProcess : public XDialogProcess
 {
     Q_OBJECT
 

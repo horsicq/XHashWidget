@@ -22,7 +22,7 @@
 #include "ui_dialoghashprocess.h"
 
 DialogHashProcess::DialogHashProcess(QWidget *pParent) :
-    QDialog(pParent),
+    XDialogProcess(pParent),
     ui(new Ui::DialogHashProcess)
 {
     ui->setupUi(this);
