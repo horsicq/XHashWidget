@@ -43,19 +43,16 @@ public:
 
     void setData(QIODevice *pDevice,HashProcess::DATA *pData);
 
+protected:
+    virtual void _timerSlot();
+
 private slots:
     void on_pushButtonCancel_clicked();
-    void errorMessage(QString sText);
-    void onCompleted(qint64 nElapsed);
-    void progressValueChanged(qint32 nValue);
-    void progressValueMinimum(qint32 nValue);
-    void progressValueMaximum(qint32 nValue);
 
 private:
     Ui::DialogHashProcess *ui;
     HashProcess *g_pHashProcess;
     QThread *g_pThread;
-    bool g_bIsStop;
 };
 
 #endif // DIALOGHASHPROCESS_H

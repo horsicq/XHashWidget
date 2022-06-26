@@ -27,7 +27,8 @@ DialogHashProcess::DialogHashProcess(QWidget *pParent) :
 {
     ui->setupUi(this);
 
-    g_bIsStop=false;
+    ui->progressBar->setMinimum(0);
+    ui->progressBar->setMaximum(1000);
 
     g_pHashProcess=new HashProcess;
     g_pThread=new QThread;
@@ -37,9 +38,6 @@ DialogHashProcess::DialogHashProcess(QWidget *pParent) :
     connect(g_pThread,SIGNAL(started()),g_pHashProcess,SLOT(process()));
     connect(g_pHashProcess,SIGNAL(completed(qint64)),this,SLOT(onCompleted(qint64)));
     connect(g_pHashProcess,SIGNAL(errorMessage(QString)),this,SLOT(errorMessage(QString)));
-    connect(g_pHashProcess,SIGNAL(progressValueChanged(qint32)),this,SLOT(progressValueChanged(qint32)));
-    connect(g_pHashProcess,SIGNAL(progressValueMinimum(qint32)),this,SLOT(progressValueMinimum(qint32)));
-    connect(g_pHashProcess,SIGNAL(progressValueMaximum(qint32)),this,SLOT(progressValueMaximum(qint32)));
 }
 
 DialogHashProcess::DialogHashProcess(QWidget *pParent,QIODevice *pDevice,HashProcess::DATA *pData) :
@@ -50,7 +48,7 @@ DialogHashProcess::DialogHashProcess(QWidget *pParent,QIODevice *pDevice,HashPro
 
 DialogHashProcess::~DialogHashProcess()
 {
-    g_pHashProcess->stop();
+    stop();
 
     g_pThread->quit();
     g_pThread->wait();
@@ -63,47 +61,19 @@ DialogHashProcess::~DialogHashProcess()
 
 void DialogHashProcess::setData(QIODevice *pDevice,HashProcess::DATA *pData)
 {
-    g_pHashProcess->setData(pDevice,pData);
+    g_pHashProcess->setData(pDevice,pData,getPdStruct());
     g_pThread->start();
 }
 
 void DialogHashProcess::on_pushButtonCancel_clicked()
 {
-    g_bIsStop=true;
-
-    g_pHashProcess->stop();
+    stop();
 }
 
-void DialogHashProcess::errorMessage(QString sText)
+void DialogHashProcess::_timerSlot()
 {
-    QMessageBox::critical(XOptions::getMainWidget(this),tr("Error"),sText);
-}
-
-void DialogHashProcess::onCompleted(qint64 nElapsed)
-{
-    Q_UNUSED(nElapsed)
-
-    if(!g_bIsStop)
+    if(getPdStruct()->pdRecord.nTotal)
     {
-        accept();
+        ui->progressBar->setValue((getPdStruct()->pdRecord.nCurrent*1000)/(getPdStruct()->pdRecord.nTotal));
     }
-    else
-    {
-        reject();
-    }
-}
-
-void DialogHashProcess::progressValueChanged(qint32 nValue)
-{
-    ui->progressBar->setValue(nValue);
-}
-
-void DialogHashProcess::progressValueMaximum(qint32 nValue)
-{
-    ui->progressBar->setMaximum(nValue);
-}
-
-void DialogHashProcess::progressValueMinimum(qint32 nValue)
-{
-    ui->progressBar->setMinimum(nValue);
 }

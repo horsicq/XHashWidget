@@ -101,7 +101,9 @@ void XHashWidget::reload()
 
     DialogHashProcess dhp(XOptions::getMainWidget(this),g_pDevice,&g_hashData);
 
-    if(dhp.exec()==QDialog::Accepted) // TODO use status
+    dhp.showDialogDelay(1000);
+
+    if(dhp.isSuccess())
     {
         ui->lineEditHash->setText(g_hashData.sHash);
 

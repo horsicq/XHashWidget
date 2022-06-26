@@ -24,38 +24,29 @@ HashProcess::HashProcess(QObject *pParent) : QObject(pParent)
 {
     g_pDevice=nullptr;
     g_pData=nullptr;
-
-    g_bIsStop=false;
-
-    connect(&g_binary,SIGNAL(errorMessage(QString)),this,SIGNAL(errorMessage(QString)));
-    connect(&g_binary,SIGNAL(hashProgressValueChanged(qint32)),this,SIGNAL(progressValueChanged(qint32)));
-    connect(&g_binary,SIGNAL(hashProgressValueChanged(qint32)),this,SIGNAL(progressValueChanged(qint32)));
-    connect(&g_binary,SIGNAL(hashProgressMinimumChanged(qint32)),this,SIGNAL(progressValueMinimum(qint32)));
-    connect(&g_binary,SIGNAL(hashProgressMaximumChanged(qint32)),this,SIGNAL(progressValueMaximum(qint32)));
+    g_pPsStruct=nullptr;
 }
 
-void HashProcess::setData(QIODevice *pDevice,DATA *pData)
+void HashProcess::setData(QIODevice *pDevice, DATA *pData, XBinary::PDSTRUCT *pPsStruct)
 {
     this->g_pDevice=pDevice;
     this->g_pData=pData;
-}
-
-void HashProcess::stop()
-{
-    g_binary.setHashProcessEnable(false);
-    g_bIsStop=true;
+    this->g_pPsStruct=pPsStruct;
 }
 
 void HashProcess::process()
 {
+    // TODO the second ProgressBar
     QElapsedTimer scanTimer;
     scanTimer.start();
 
-    g_bIsStop=false;
+    g_pPsStruct->pdRecordOpt.bIsValid=true;
 
-    g_binary.setDevice(this->g_pDevice);
+    XBinary g_binary(this->g_pDevice);
 
-    g_pData->sHash=g_binary.getHash(g_pData->hash,g_pData->nOffset,g_pData->nSize);
+    connect(&g_binary,SIGNAL(errorMessage(QString)),this,SIGNAL(errorMessage(QString)));
+
+    g_pData->sHash=g_binary.getHash(g_pData->hash,g_pData->nOffset,g_pData->nSize,this->g_pPsStruct);
 
     g_pData->listMemoryRecords.clear();
 
@@ -73,7 +64,7 @@ void HashProcess::process()
 
     qint32 nNumberOfRecords=memoryMap.listRecords.count();
 
-    for(qint32 i=0,j=0;i<nNumberOfRecords;i++)
+    for(qint32 i=0,j=0;(i<nNumberOfRecords)&&(!(g_pPsStruct->bIsStop));i++)
     {
         bool bIsVirtual=memoryMap.listRecords.at(i).bIsVirtual;
 
@@ -87,7 +78,7 @@ void HashProcess::process()
             }
             else
             {
-                memoryRecord.sHash=g_binary.getHash(g_pData->hash,g_pData->nOffset+memoryMap.listRecords.at(i).nOffset,memoryMap.listRecords.at(i).nSize);
+                memoryRecord.sHash=g_binary.getHash(g_pData->hash,g_pData->nOffset+memoryMap.listRecords.at(i).nOffset,memoryMap.listRecords.at(i).nSize,this->g_pPsStruct);
             }
 
             memoryRecord.sName=memoryMap.listRecords.at(i).sName;
@@ -135,7 +126,7 @@ void HashProcess::process()
 
             qint32 nNumberOfImports=listImports.count();
 
-            for(qint32 i=0;i<nNumberOfImports;i++)
+            for(qint32 i=0;(i<nNumberOfImports)&&(!(g_pPsStruct->bIsStop));i++)
             {
                 MEMORY_RECORD memoryRecord={};
 
@@ -149,7 +140,12 @@ void HashProcess::process()
         }
     }
 
-    g_bIsStop=false;
+    if(!(g_pPsStruct->bIsStop))
+    {
+        g_pPsStruct->pdRecordOpt.bSuccess=true;
+    }
+
+    g_pPsStruct->pdRecordOpt.bFinished=true;
 
     emit completed(scanTimer.elapsed());
 }

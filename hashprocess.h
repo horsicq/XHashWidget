@@ -51,24 +51,19 @@ public:
 
     explicit HashProcess(QObject *pParent=nullptr);
 
-    void setData(QIODevice *pDevice,DATA *pData);
+    void setData(QIODevice *pDevice,DATA *pData,XBinary::PDSTRUCT *pPsStruct);
 
 signals:
     void errorMessage(QString sText);
     void completed(qint64 nElapsed);
-    void progressValueChanged(qint32 nValue);
-    void progressValueMinimum(qint32 nValue);
-    void progressValueMaximum(qint32 nValue);
 
 public slots:
-    void stop();
     void process();
 
 private:
     QIODevice *g_pDevice;
     DATA *g_pData;
-    bool g_bIsStop;
-    XBinary g_binary;
+    XBinary::PDSTRUCT *g_pPsStruct;
 };
 
 #endif // HASHPROCESS_H
