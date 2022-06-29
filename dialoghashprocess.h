@@ -28,10 +28,6 @@
 #include "xoptions.h"
 #include "xdialogprocess.h"
 
-namespace Ui {
-class DialogHashProcess;
-}
-
 class DialogHashProcess : public XDialogProcess
 {
     Q_OBJECT
@@ -43,14 +39,7 @@ public:
 
     void setData(QIODevice *pDevice,HashProcess::DATA *pData);
 
-protected:
-    virtual void _timerSlot();
-
-private slots:
-    void on_pushButtonCancel_clicked();
-
 private:
-    Ui::DialogHashProcess *ui;
     HashProcess *g_pHashProcess;
     QThread *g_pThread;
 };

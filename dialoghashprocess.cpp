@@ -19,17 +19,10 @@
  * SOFTWARE.
  */
 #include "dialoghashprocess.h"
-#include "ui_dialoghashprocess.h"
 
 DialogHashProcess::DialogHashProcess(QWidget *pParent) :
-    XDialogProcess(pParent),
-    ui(new Ui::DialogHashProcess)
+    XDialogProcess(pParent)
 {
-    ui->setupUi(this);
-
-    ui->progressBar->setMinimum(0);
-    ui->progressBar->setMaximum(1000);
-
     g_pHashProcess=new HashProcess;
     g_pThread=new QThread;
 
@@ -53,8 +46,6 @@ DialogHashProcess::~DialogHashProcess()
     g_pThread->quit();
     g_pThread->wait();
 
-    delete ui;
-
     delete g_pThread;
     delete g_pHashProcess;
 }
@@ -65,15 +56,3 @@ void DialogHashProcess::setData(QIODevice *pDevice,HashProcess::DATA *pData)
     g_pThread->start();
 }
 
-void DialogHashProcess::on_pushButtonCancel_clicked()
-{
-    stop();
-}
-
-void DialogHashProcess::_timerSlot()
-{
-    if(getPdStruct()->pdRecord.nTotal)
-    {
-        ui->progressBar->setValue((getPdStruct()->pdRecord.nCurrent*1000)/(getPdStruct()->pdRecord.nTotal));
-    }
-}
