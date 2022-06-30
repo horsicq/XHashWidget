@@ -42,6 +42,7 @@ DialogHashProcess::DialogHashProcess(QWidget *pParent,QIODevice *pDevice,HashPro
 DialogHashProcess::~DialogHashProcess()
 {
     stop();
+    waitForFinished();
 
     g_pThread->quit();
     g_pThread->wait();
