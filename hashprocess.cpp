@@ -36,7 +36,7 @@ void HashProcess::setData(QIODevice *pDevice,DATA *pData,XBinary::PDSTRUCT *pPdS
 
 void HashProcess::process()
 {
-    // TODO the second ProgressBar
+    // TODO the second ProgressBar !!!
     QElapsedTimer scanTimer;
     scanTimer.start();
 
