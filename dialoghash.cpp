@@ -27,7 +27,7 @@ DialogHash::DialogHash(QWidget *pParent) :
 {
     ui->setupUi(this);
 
-    setWindowFlags(Qt::Window);
+    setWindowFlags(Qt::Window); // TODO options
 }
 
 DialogHash::~DialogHash()
