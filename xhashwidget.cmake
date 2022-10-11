@@ -1,6 +1,8 @@
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 # TODO
+# xformats
+# xlineedithex
 include(${CMAKE_CURRENT_LIST_DIR}/../FormatDialogs/xdialogprocess.cmake)
 
 set(XHASHWIDGET_SOURCES
