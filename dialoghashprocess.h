@@ -21,9 +21,6 @@
 #ifndef DIALOGHASHPROCESS_H
 #define DIALOGHASHPROCESS_H
 
-#include <QDialog>
-#include <QMessageBox>
-#include <QThread>
 #include "hashprocess.h"
 #include "xoptions.h"
 #include "xdialogprocess.h"
