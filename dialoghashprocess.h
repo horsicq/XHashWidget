@@ -22,8 +22,8 @@
 #define DIALOGHASHPROCESS_H
 
 #include "hashprocess.h"
-#include "xoptions.h"
 #include "xdialogprocess.h"
+#include "xoptions.h"
 
 class DialogHashProcess : public XDialogProcess
 {
