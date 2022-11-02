@@ -44,7 +44,7 @@ XHashWidget::XHashWidget(QWidget *pParent) :
         ui->comboBoxMethod->addItem(XBinary::hashIdToString(hash),hash);
     }
 
-    if(nNumberOfMethods>1)
+    if(nNumberOfMethods>1) // TODO Check
     {
         ui->comboBoxMethod->setCurrentIndex(1); // MD5 default TODO consts !!!
     }
