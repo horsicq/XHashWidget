@@ -161,7 +161,7 @@ void XHashWidget::reload()
 
         qint32 nColumnSize=XLineEditHEX::getWidthFromMode(this,g_hashData.mode);
 
-        ui->tableWidgetRegions->setColumnWidth(0,150);
+        ui->tableWidgetRegions->setColumnWidth(0,150);  // TODO consts
         ui->tableWidgetRegions->setColumnWidth(1,nColumnSize);
         ui->tableWidgetRegions->setColumnWidth(2,nColumnSize);
     }
