@@ -24,22 +24,18 @@
 #include "xformats.h"
 #include "xlineedithex.h"
 
-class HashProcess : public QObject
-{
+class HashProcess : public QObject {
     Q_OBJECT
 
 public:
-
-    struct MEMORY_RECORD
-    {
+    struct MEMORY_RECORD {
         QString sName;
         qint64 nOffset;
         qint64 nSize;
         QString sHash;
     };
 
-    struct DATA
-    {
+    struct DATA {
         qint64 nOffset;
         qint64 nSize;
         QString sHash;
@@ -49,9 +45,9 @@ public:
         QList<MEMORY_RECORD> listMemoryRecords;
     };
 
-    explicit HashProcess(QObject *pParent=nullptr);
+    explicit HashProcess(QObject *pParent = nullptr);
 
-    void setData(QIODevice *pDevice,DATA *pData,XBinary::PDSTRUCT *pPdStruct);
+    void setData(QIODevice *pDevice, DATA *pData, XBinary::PDSTRUCT *pPdStruct);
 
 signals:
     void errorMessage(QString sText);
@@ -66,4 +62,4 @@ private:
     XBinary::PDSTRUCT *g_pPdStruct;
 };
 
-#endif // HASHPROCESS_H
+#endif  // HASHPROCESS_H

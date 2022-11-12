@@ -25,20 +25,19 @@
 #include "xdialogprocess.h"
 #include "xoptions.h"
 
-class DialogHashProcess : public XDialogProcess
-{
+class DialogHashProcess : public XDialogProcess {
     Q_OBJECT
 
 public:
     explicit DialogHashProcess(QWidget *pParent);
-    explicit DialogHashProcess(QWidget *pParent,QIODevice *pDevice,HashProcess::DATA *pData);
+    explicit DialogHashProcess(QWidget *pParent, QIODevice *pDevice, HashProcess::DATA *pData);
     ~DialogHashProcess();
 
-    void setData(QIODevice *pDevice,HashProcess::DATA *pData);
+    void setData(QIODevice *pDevice, HashProcess::DATA *pData);
 
 private:
     HashProcess *g_pHashProcess;
     QThread *g_pThread;
 };
 
-#endif // DIALOGHASHPROCESS_H
+#endif  // DIALOGHASHPROCESS_H

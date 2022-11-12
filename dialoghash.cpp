@@ -19,33 +19,27 @@
  * SOFTWARE.
  */
 #include "dialoghash.h"
+
 #include "ui_dialoghash.h"
 
-DialogHash::DialogHash(QWidget *pParent) :
-    QDialog(pParent),
-    ui(new Ui::DialogHash)
-{
+DialogHash::DialogHash(QWidget *pParent) : QDialog(pParent), ui(new Ui::DialogHash) {
     ui->setupUi(this);
 
-    setWindowFlags(Qt::Window); // TODO options
+    setWindowFlags(Qt::Window);  // TODO options
 }
 
-DialogHash::~DialogHash()
-{
+DialogHash::~DialogHash() {
     delete ui;
 }
 
-void DialogHash::setData(QIODevice *pDevice,XBinary::FT fileType,qint64 nOffset,qint64 nSize)
-{
-    ui->widgetHash->setData(pDevice,fileType,nOffset,nSize,true);
+void DialogHash::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize) {
+    ui->widgetHash->setData(pDevice, fileType, nOffset, nSize, true);
 }
 
-void DialogHash::setGlobal(XShortcuts *pShortcuts,XOptions *pXOptions)
-{
-    ui->widgetHash->setGlobal(pShortcuts,pXOptions);
+void DialogHash::setGlobal(XShortcuts *pShortcuts, XOptions *pXOptions) {
+    ui->widgetHash->setGlobal(pShortcuts, pXOptions);
 }
 
-void DialogHash::on_pushButtonClose_clicked()
-{
+void DialogHash::on_pushButtonClose_clicked() {
     this->close();
 }

@@ -25,6 +25,7 @@
 #include <QImageWriter>
 #include <QItemSelection>
 #include <QStandardItemModel>
+
 #include "dialoghashprocess.h"
 #include "xformats.h"
 #include "xshortcutswidget.h"
@@ -33,15 +34,14 @@ namespace Ui {
 class XHashWidget;
 }
 
-class XHashWidget : public XShortcutsWidget
-{
+class XHashWidget : public XShortcutsWidget {
     Q_OBJECT
 
 public:
-    explicit XHashWidget(QWidget *pParent=nullptr);
+    explicit XHashWidget(QWidget *pParent = nullptr);
     ~XHashWidget();
 
-    void setData(QIODevice *pDevice,XBinary::FT fileType,qint64 nOffset,qint64 nSize,bool bAuto=false);
+    void setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize, bool bAuto = false);
     void reload();
 
 private slots:
@@ -61,4 +61,4 @@ private:
     HashProcess::DATA g_hashData;
 };
 
-#endif // XHASHWIDGET_H
+#endif  // XHASHWIDGET_H

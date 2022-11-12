@@ -20,27 +20,22 @@
  */
 #include "dialoghashprocess.h"
 
-DialogHashProcess::DialogHashProcess(QWidget *pParent) :
-    XDialogProcess(pParent)
-{
-    g_pHashProcess=new HashProcess;
-    g_pThread=new QThread;
+DialogHashProcess::DialogHashProcess(QWidget *pParent) : XDialogProcess(pParent) {
+    g_pHashProcess = new HashProcess;
+    g_pThread = new QThread;
 
     g_pHashProcess->moveToThread(g_pThread);
 
-    connect(g_pThread,SIGNAL(started()),g_pHashProcess,SLOT(process()));
-    connect(g_pHashProcess,SIGNAL(completed(qint64)),this,SLOT(onCompleted(qint64)));
-    connect(g_pHashProcess,SIGNAL(errorMessage(QString)),this,SLOT(errorMessage(QString)));
+    connect(g_pThread, SIGNAL(started()), g_pHashProcess, SLOT(process()));
+    connect(g_pHashProcess, SIGNAL(completed(qint64)), this, SLOT(onCompleted(qint64)));
+    connect(g_pHashProcess, SIGNAL(errorMessage(QString)), this, SLOT(errorMessage(QString)));
 }
 
-DialogHashProcess::DialogHashProcess(QWidget *pParent,QIODevice *pDevice,HashProcess::DATA *pData) :
-    DialogHashProcess(pParent)
-{
-    setData(pDevice,pData);
+DialogHashProcess::DialogHashProcess(QWidget *pParent, QIODevice *pDevice, HashProcess::DATA *pData) : DialogHashProcess(pParent) {
+    setData(pDevice, pData);
 }
 
-DialogHashProcess::~DialogHashProcess()
-{
+DialogHashProcess::~DialogHashProcess() {
     stop();
     waitForFinished();
 
@@ -51,9 +46,7 @@ DialogHashProcess::~DialogHashProcess()
     delete g_pHashProcess;
 }
 
-void DialogHashProcess::setData(QIODevice *pDevice,HashProcess::DATA *pData)
-{
-    g_pHashProcess->setData(pDevice,pData,getPdStruct());
+void DialogHashProcess::setData(QIODevice *pDevice, HashProcess::DATA *pData) {
+    g_pHashProcess->setData(pDevice, pData, getPdStruct());
     g_pThread->start();
 }
-
