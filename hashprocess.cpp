@@ -20,19 +20,22 @@
  */
 #include "hashprocess.h"
 
-HashProcess::HashProcess(QObject *pParent) : QObject(pParent) {
+HashProcess::HashProcess(QObject *pParent) : QObject(pParent)
+{
     g_pDevice = nullptr;
     g_pData = nullptr;
     g_pPdStruct = nullptr;
 }
 
-void HashProcess::setData(QIODevice *pDevice, DATA *pData, XBinary::PDSTRUCT *pPdStruct) {
+void HashProcess::setData(QIODevice *pDevice, DATA *pData, XBinary::PDSTRUCT *pPdStruct)
+{
     this->g_pDevice = pDevice;
     this->g_pData = pData;
     this->g_pPdStruct = pPdStruct;
 }
 
-void HashProcess::process() {
+void HashProcess::process()
+{
     // TODO the second ProgressBar
     QElapsedTimer scanTimer;
     scanTimer.start();

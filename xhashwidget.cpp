@@ -22,7 +22,8 @@
 
 #include "ui_xhashwidget.h"
 
-XHashWidget::XHashWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new Ui::XHashWidget) {
+XHashWidget::XHashWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new Ui::XHashWidget)
+{
     ui->setupUi(this);
 
     g_pDevice = nullptr;
@@ -49,11 +50,13 @@ XHashWidget::XHashWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new U
     ui->comboBoxMethod->blockSignals(bBlocked1);
 }
 
-XHashWidget::~XHashWidget() {
+XHashWidget::~XHashWidget()
+{
     delete ui;
 }
 
-void XHashWidget::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize, bool bAuto) {
+void XHashWidget::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize, bool bAuto)
+{
     this->g_pDevice = pDevice;
     this->g_nOffset = nOffset;
     this->g_nSize = nSize;
@@ -78,7 +81,8 @@ void XHashWidget::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffs
     }
 }
 
-void XHashWidget::reload() {
+void XHashWidget::reload()
+{
     g_hashData.hash = (XBinary::HASH)ui->comboBoxMethod->currentData().toInt();
     g_hashData.fileType = (XBinary::FT)(ui->comboBoxType->currentData().toInt());
     g_hashData.nOffset = g_nOffset;
@@ -154,27 +158,32 @@ void XHashWidget::reload() {
     }
 }
 
-void XHashWidget::on_pushButtonReload_clicked() {
+void XHashWidget::on_pushButtonReload_clicked()
+{
     reload();
 }
 
-void XHashWidget::on_comboBoxType_currentIndexChanged(int nIndex) {
+void XHashWidget::on_comboBoxType_currentIndexChanged(int nIndex)
+{
     Q_UNUSED(nIndex)
 
     reload();
 }
 
-void XHashWidget::on_comboBoxMethod_currentIndexChanged(int nIndex) {
+void XHashWidget::on_comboBoxMethod_currentIndexChanged(int nIndex)
+{
     Q_UNUSED(nIndex)
 
     reload();
 }
 
-void XHashWidget::registerShortcuts(bool bState) {
+void XHashWidget::registerShortcuts(bool bState)
+{
     Q_UNUSED(bState)
     // TODO !!!
 }
 
-void XHashWidget::on_pushButtonSave_clicked() {
+void XHashWidget::on_pushButtonSave_clicked()
+{
     XShortcutsWidget::saveModel(ui->tableWidgetRegions->model(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Hash"))));
 }
