@@ -20,7 +20,8 @@
  */
 #include "hashprocess.h"
 
-HashProcess::HashProcess(QObject *pParent) : QObject(pParent)
+HashProcess::HashProcess(QObject *pParent)
+    : QObject(pParent)
 {
     g_pDevice = nullptr;
     g_pData = nullptr;
