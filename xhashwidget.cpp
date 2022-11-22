@@ -22,8 +22,7 @@
 
 #include "ui_xhashwidget.h"
 
-XHashWidget::XHashWidget(QWidget *pParent)
-    : XShortcutsWidget(pParent), ui(new Ui::XHashWidget)
+XHashWidget::XHashWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new Ui::XHashWidget)
 {
     ui->setupUi(this);
 

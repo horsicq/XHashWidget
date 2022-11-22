@@ -20,8 +20,7 @@
  */
 #include "dialoghashprocess.h"
 
-DialogHashProcess::DialogHashProcess(QWidget *pParent)
-    : XDialogProcess(pParent)
+DialogHashProcess::DialogHashProcess(QWidget *pParent) : XDialogProcess(pParent)
 {
     g_pHashProcess = new HashProcess;
     g_pThread = new QThread;
@@ -33,8 +32,7 @@ DialogHashProcess::DialogHashProcess(QWidget *pParent)
     connect(g_pHashProcess, SIGNAL(errorMessage(QString)), this, SLOT(errorMessage(QString)));
 }
 
-DialogHashProcess::DialogHashProcess(QWidget *pParent, QIODevice *pDevice, HashProcess::DATA *pData)
-    : DialogHashProcess(pParent)
+DialogHashProcess::DialogHashProcess(QWidget *pParent, QIODevice *pDevice, HashProcess::DATA *pData) : DialogHashProcess(pParent)
 {
     setData(pDevice, pData);
 }
