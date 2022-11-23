@@ -83,6 +83,7 @@ void XHashWidget::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffs
 
 void XHashWidget::reload()
 {
+    // TODO QTableView
     g_hashData.hash = (XBinary::HASH)ui->comboBoxMethod->currentData().toInt();
     g_hashData.fileType = (XBinary::FT)(ui->comboBoxType->currentData().toInt());
     g_hashData.nOffset = g_nOffset;
