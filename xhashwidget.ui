@@ -220,7 +220,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QTableWidget" name="tableWidgetRegions">
+       <widget class="QTableView" name="tableViewRegions">
         <property name="editTriggers">
          <set>QAbstractItemView::NoEditTriggers</set>
         </property>
@@ -230,10 +230,7 @@
         <property name="selectionBehavior">
          <enum>QAbstractItemView::SelectItems</enum>
         </property>
-        <attribute name="horizontalHeaderMinimumSectionSize">
-         <number>0</number>
-        </attribute>
-        <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+        <attribute name="horizontalHeaderStretchLastSection">
          <bool>false</bool>
         </attribute>
         <attribute name="verticalHeaderVisible">
@@ -244,6 +241,9 @@
         </attribute>
         <attribute name="verticalHeaderDefaultSectionSize">
          <number>20</number>
+        </attribute>
+        <attribute name="verticalHeaderStretchLastSection">
+         <bool>false</bool>
         </attribute>
        </widget>
       </item>

@@ -96,66 +96,65 @@ void XHashWidget::reload()
     if (dhp.isSuccess()) {
         ui->lineEditHash->setText(g_hashData.sHash);
 
-        ui->tableWidgetRegions->clear();
+        QAbstractItemModel *pOldModel = ui->tableViewRegions->model();
 
         qint32 nNumberOfMemoryRecords = g_hashData.listMemoryRecords.count();
 
-        QStringList slHeader;
-        slHeader.append(tr("Name"));
-        slHeader.append(tr("Offset"));
-        slHeader.append(tr("Size"));
-        slHeader.append(tr("Hash"));
+        QStandardItemModel *pModel = new QStandardItemModel(nNumberOfMemoryRecords, 4);
 
-        ui->tableWidgetRegions->setRowCount(nNumberOfMemoryRecords);
-        ui->tableWidgetRegions->setColumnCount(slHeader.size());
-
-        ui->tableWidgetRegions->setHorizontalHeaderLabels(slHeader);
-        ui->tableWidgetRegions->horizontalHeader()->setVisible(true);
+        pModel->setHeaderData(0, Qt::Horizontal, tr("Name"));
+        pModel->setHeaderData(1, Qt::Horizontal, tr("Offset"));
+        pModel->setHeaderData(2, Qt::Horizontal, tr("Size"));
+        pModel->setHeaderData(3, Qt::Horizontal, tr("Hash"));
 
         for (qint32 i = 0; i < nNumberOfMemoryRecords; i++) {
-            QTableWidgetItem *pItemName = new QTableWidgetItem;
+            QStandardItem *pItemName = new QStandardItem;
 
             pItemName->setText(g_hashData.listMemoryRecords.at(i).sName);
-            pItemName->setData(Qt::UserRole + 0, g_hashData.listMemoryRecords.at(i).nOffset);
-            pItemName->setData(Qt::UserRole + 1, g_hashData.listMemoryRecords.at(i).nSize);
+            pItemName->setData(g_hashData.listMemoryRecords.at(i).nOffset,Qt::UserRole + 0);
+            pItemName->setData(g_hashData.listMemoryRecords.at(i).nSize,Qt::UserRole + 1);
 
-            ui->tableWidgetRegions->setItem(i, 0, pItemName);
+            pModel->setItem(i, 0, pItemName);
 
             if (g_hashData.listMemoryRecords.at(i).nOffset != -1) {
-                QTableWidgetItem *pItemOffset = new QTableWidgetItem;
+                QStandardItem *pItemOffset = new QStandardItem;
 
                 pItemOffset->setText(XLineEditHEX::getFormatString(g_hashData.mode, g_hashData.listMemoryRecords.at(i).nOffset));
                 pItemOffset->setTextAlignment(Qt::AlignRight);
-                ui->tableWidgetRegions->setItem(i, 1, pItemOffset);
+                pModel->setItem(i, 1, pItemOffset);
             }
 
             if (g_hashData.listMemoryRecords.at(i).nSize != -1) {
-                QTableWidgetItem *pItemSize = new QTableWidgetItem;
+                QStandardItem *pItemSize = new QStandardItem;
 
                 pItemSize->setText(XLineEditHEX::getFormatString(g_hashData.mode, g_hashData.listMemoryRecords.at(i).nSize));
                 pItemSize->setTextAlignment(Qt::AlignRight);
-                ui->tableWidgetRegions->setItem(i, 2, pItemSize);
+                pModel->setItem(i, 2, pItemSize);
             }
 
-            QTableWidgetItem *pItemHash = new QTableWidgetItem;
+            QStandardItem *pItemHash = new QStandardItem;
 
             QString sHash = g_hashData.listMemoryRecords.at(i).sHash;
 
             pItemHash->setText(sHash);
             pItemHash->setTextAlignment(Qt::AlignLeft);
-            ui->tableWidgetRegions->setItem(i, 3, pItemHash);
+            pModel->setItem(i, 3, pItemHash);
         }
 
-        ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
-        ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
-        ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Interactive);
-        ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
+        ui->tableViewRegions->setModel(pModel);
+
+        deleteOldAbstractModel(&pOldModel);
+
+        ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
+        ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
+        ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Interactive);
+        ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
 
         qint32 nColumnSize = XLineEditHEX::getWidthFromMode(this, g_hashData.mode);
 
-        ui->tableWidgetRegions->setColumnWidth(0, 150);  // TODO consts
-        ui->tableWidgetRegions->setColumnWidth(1, nColumnSize);
-        ui->tableWidgetRegions->setColumnWidth(2, nColumnSize);
+        ui->tableViewRegions->setColumnWidth(0, 150);  // TODO consts
+        ui->tableViewRegions->setColumnWidth(1, nColumnSize);
+        ui->tableViewRegions->setColumnWidth(2, nColumnSize);
     }
 }
 
@@ -186,5 +185,5 @@ void XHashWidget::registerShortcuts(bool bState)
 
 void XHashWidget::on_pushButtonSave_clicked()
 {
-    XShortcutsWidget::saveModel(ui->tableWidgetRegions->model(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Hash"))));
+    XShortcutsWidget::saveModel(ui->tableViewRegions->model(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Hash"))));
 }
