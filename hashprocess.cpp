@@ -78,7 +78,8 @@ void HashProcess::process()
             if ((memoryMap.listRecords.at(i).nOffset == 0) && (memoryMap.listRecords.at(i).nSize == g_pData->nSize)) {
                 memoryRecord.sHash = g_pData->sHash;
             } else {
-                memoryRecord.sHash = g_binary.getHash(g_pData->hash, g_pData->nOffset + memoryMap.listRecords.at(i).nOffset, memoryMap.listRecords.at(i).nSize, this->g_pPdStruct);
+                memoryRecord.sHash =
+                    g_binary.getHash(g_pData->hash, g_pData->nOffset + memoryMap.listRecords.at(i).nOffset, memoryMap.listRecords.at(i).nSize, this->g_pPdStruct);
             }
 
             memoryRecord.sName = memoryMap.listRecords.at(i).sName;

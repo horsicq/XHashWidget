@@ -111,8 +111,8 @@ void XHashWidget::reload()
             QStandardItem *pItemName = new QStandardItem;
 
             pItemName->setText(g_hashData.listMemoryRecords.at(i).sName);
-            pItemName->setData(g_hashData.listMemoryRecords.at(i).nOffset,Qt::UserRole + 0);
-            pItemName->setData(g_hashData.listMemoryRecords.at(i).nSize,Qt::UserRole + 1);
+            pItemName->setData(g_hashData.listMemoryRecords.at(i).nOffset, Qt::UserRole + 0);
+            pItemName->setData(g_hashData.listMemoryRecords.at(i).nSize, Qt::UserRole + 1);
 
             pModel->setItem(i, 0, pItemName);
 
