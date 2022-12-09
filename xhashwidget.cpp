@@ -185,5 +185,5 @@ void XHashWidget::registerShortcuts(bool bState)
 
 void XHashWidget::on_pushButtonSave_clicked()
 {
-    XShortcutsWidget::saveModel(ui->tableViewRegions->model(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Hash"))));
+    XShortcutsWidget::saveTableModel(ui->tableViewRegions->model(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Hash"))));
 }
