@@ -120,7 +120,6 @@ void XHashWidget::reload()
                 QStandardItem *pItemOffset = new QStandardItem;
 
                 pItemOffset->setText(XLineEditHEX::getFormatString(g_hashData.mode, g_hashData.listMemoryRecords.at(i).nOffset));
-                pItemOffset->setTextAlignment(Qt::AlignRight);
                 pModel->setItem(i, 1, pItemOffset);
             }
 
@@ -128,7 +127,6 @@ void XHashWidget::reload()
                 QStandardItem *pItemSize = new QStandardItem;
 
                 pItemSize->setText(XLineEditHEX::getFormatString(g_hashData.mode, g_hashData.listMemoryRecords.at(i).nSize));
-                pItemSize->setTextAlignment(Qt::AlignRight);
                 pModel->setItem(i, 2, pItemSize);
             }
 
@@ -137,9 +135,13 @@ void XHashWidget::reload()
             QString sHash = g_hashData.listMemoryRecords.at(i).sHash;
 
             pItemHash->setText(sHash);
-            pItemHash->setTextAlignment(Qt::AlignLeft);
             pModel->setItem(i, 3, pItemHash);
         }
+
+        XOptions::setModelTextAlignment(pModel, 0, Qt::AlignLeft | Qt::AlignVCenter);
+        XOptions::setModelTextAlignment(pModel, 1, Qt::AlignRight | Qt::AlignVCenter);
+        XOptions::setModelTextAlignment(pModel, 2, Qt::AlignRight | Qt::AlignVCenter);
+        XOptions::setModelTextAlignment(pModel, 3, Qt::AlignLeft | Qt::AlignVCenter);
 
         ui->tableViewRegions->setModel(pModel);
 
