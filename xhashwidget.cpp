@@ -31,6 +31,8 @@ XHashWidget::XHashWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new U
     g_nSize = 0;
     g_hashData = {};
 
+    ui->lineEditHash->setValidatorMode(HEXValidator::MODE_TEXT);
+
     const bool bBlocked1 = ui->comboBoxMethod->blockSignals(true);
 
     QList<XBinary::HASH> listHashMethods = XBinary::getHashMethodsAsList();
@@ -188,4 +190,17 @@ void XHashWidget::registerShortcuts(bool bState)
 void XHashWidget::on_pushButtonSave_clicked()
 {
     XShortcutsWidget::saveTableModel(ui->tableViewRegions->model(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Hash"))));
+}
+
+void XHashWidget::on_tableViewRegions_customContextMenuRequested(const QPoint &pos)
+{
+    qint32 nRow = ui->tableViewRegions->currentIndex().row();
+
+    if (nRow != -1) {
+        QMenu contextMenu(this);
+
+        contextMenu.addMenu(getShortcuts()->getRowCopyMenu(this, ui->tableViewRegions));
+
+        contextMenu.exec(ui->tableViewRegions->viewport()->mapToGlobal(pos));
+    }
 }
