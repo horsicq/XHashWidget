@@ -41,7 +41,7 @@ void HashProcess::process()
     scanTimer.start();
 
     qint32 _nFreeIndex = XBinary::getFreeIndex(g_pPdStruct);
-    XBinary::setPdStructInit(g_pPdStruct, _nFreeIndex, 0);  // TODO Total
+    XBinary::setPdStructInit(g_pPdStruct, _nFreeIndex, 0);  // TODO Total / Check
 
     XBinary g_binary(this->g_pDevice);
 
