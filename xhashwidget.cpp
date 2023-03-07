@@ -93,7 +93,7 @@ void XHashWidget::reload()
 
     DialogHashProcess dhp(XOptions::getMainWidget(this), g_pDevice, &g_hashData);
 
-    dhp.showDialogDelay(1000);
+    dhp.showDialogDelay();
 
     if (dhp.isSuccess()) {
         ui->lineEditHash->setText(g_hashData.sHash);
