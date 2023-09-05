@@ -53,15 +53,15 @@ void HashProcess::process()
 
     XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap(g_pData->fileType, this->g_pDevice);
 
-    g_pData->mode = XLineEditHEX::MODE_32;
+    g_pData->mode = HEXValidator::MODE_HEX_32;
 
     XBinary::MODE _mode = XBinary::getWidthModeFromMemoryMap(&memoryMap);
 
     // mb TODO a function !!! TODO move to Widget Check
-    if (_mode == XBinary::MODE_8) g_pData->mode = XLineEditHEX::MODE_8;
-    else if (_mode == XBinary::MODE_16) g_pData->mode = XLineEditHEX::MODE_16;
-    else if (_mode == XBinary::MODE_32) g_pData->mode = XLineEditHEX::MODE_32;
-    else if (_mode == XBinary::MODE_64) g_pData->mode = XLineEditHEX::MODE_64;
+    if (_mode == XBinary::MODE_8) g_pData->mode = HEXValidator::MODE_HEX_8;
+    else if (_mode == XBinary::MODE_16) g_pData->mode = HEXValidator::MODE_HEX_16;
+    else if (_mode == XBinary::MODE_32) g_pData->mode = HEXValidator::MODE_HEX_32;
+    else if (_mode == XBinary::MODE_64) g_pData->mode = HEXValidator::MODE_HEX_64;
 
     qint32 nNumberOfRecords = memoryMap.listRecords.count();
 
