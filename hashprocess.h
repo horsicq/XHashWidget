@@ -41,7 +41,7 @@ public:
         QString sHash;
         XBinary::HASH hash;
         XBinary::FT fileType;
-        HEXValidator::MODE mode;
+        XLineEditValidator::MODE mode;
         QList<MEMORY_RECORD> listMemoryRecords;
     };
 

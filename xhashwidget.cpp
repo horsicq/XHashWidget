@@ -31,7 +31,7 @@ XHashWidget::XHashWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new U
     g_nSize = 0;
     g_hashData = {};
 
-    ui->lineEditHash->setValidatorMode(HEXValidator::MODE_TEXT);
+    ui->lineEditHash->setValidatorMode(XLineEditValidator::MODE_TEXT);
 
     const bool bBlocked1 = ui->comboBoxMethod->blockSignals(true);
 
