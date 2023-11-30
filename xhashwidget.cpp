@@ -96,7 +96,7 @@ void XHashWidget::reload()
     dhp.showDialogDelay();
 
     if (dhp.isSuccess()) {
-        ui->lineEditHash->setText(g_hashData.sHash);
+        ui->lineEditHash->setValue_String(g_hashData.sHash);
 
         QAbstractItemModel *pOldModel = ui->tableViewRegions->model();
 
