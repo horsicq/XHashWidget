@@ -51,7 +51,7 @@ void HashProcess::process()
 
     g_pData->listMemoryRecords.clear();
 
-    XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap(g_pData->fileType, this->g_pDevice);
+    XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap(g_pData->fileType, XBinary::MAPMODE_UNKNOWN, this->g_pDevice);
 
     g_pData->mode = XLineEditValidator::MODE_HEX_32;
 
