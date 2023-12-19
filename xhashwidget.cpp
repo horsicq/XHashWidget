@@ -74,6 +74,7 @@ void XHashWidget::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffs
 
     if (subDevice.open(QIODevice::ReadOnly)) {
         XFormats::setFileTypeComboBox(fileType, &subDevice, ui->comboBoxType);
+        XFormats::setMapModeComboBox(fileType, &subDevice, false, -1, ui->comboBoxMapMode);
 
         subDevice.close();
     }
@@ -88,6 +89,7 @@ void XHashWidget::reload()
     // TODO QTableView
     g_hashData.hash = (XBinary::HASH)ui->comboBoxMethod->currentData().toInt();
     g_hashData.fileType = (XBinary::FT)(ui->comboBoxType->currentData().toInt());
+    g_hashData.mapMode = (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toInt());
     g_hashData.nOffset = g_nOffset;
     g_hashData.nSize = g_nSize;
 
@@ -203,4 +205,11 @@ void XHashWidget::on_tableViewRegions_customContextMenuRequested(const QPoint &p
 
         contextMenu.exec(ui->tableViewRegions->viewport()->mapToGlobal(pos));
     }
+}
+
+void XHashWidget::on_comboBoxMapMode_currentIndexChanged(int nIndex)
+{
+    Q_UNUSED(nIndex)
+
+    reload();
 }

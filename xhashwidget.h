@@ -50,6 +50,7 @@ private slots:
     void on_comboBoxMethod_currentIndexChanged(int nIndex);
     void on_pushButtonSave_clicked();
     void on_tableViewRegions_customContextMenuRequested(const QPoint &pos);
+    void on_comboBoxMapMode_currentIndexChanged(int nIndex);
 
 protected:
     virtual void registerShortcuts(bool bState);
