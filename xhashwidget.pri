@@ -14,7 +14,6 @@ SOURCES += \
     $$PWD/dialoghash.cpp
 
 FORMS += \
-    $$PWD/dialoghashprocess.ui \
     $$PWD/xhashwidget.ui \
     $$PWD/dialoghash.ui
 
