@@ -74,7 +74,7 @@ void XHashWidget::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffs
 
     if (subDevice.open(QIODevice::ReadOnly)) {
         XFormats::setFileTypeComboBox(fileType, &subDevice, ui->comboBoxType);
-        XFormats::setMapModeComboBox(fileType, &subDevice, false, -1, ui->comboBoxMapMode);
+        XFormats::getMapModesList(fileType, ui->comboBoxMapMode);
 
         subDevice.close();
     }
@@ -172,6 +172,9 @@ void XHashWidget::on_pushButtonReload_clicked()
 void XHashWidget::on_comboBoxType_currentIndexChanged(int nIndex)
 {
     Q_UNUSED(nIndex)
+
+    XBinary::FT fileType = (XBinary::FT)(ui->comboBoxType->currentData().toInt());
+    XFormats::getMapModesList(fileType, ui->comboBoxMapMode);
 
     reload();
 }
