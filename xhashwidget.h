@@ -43,6 +43,7 @@ public:
 
     void setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize, bool bAuto = false);
     void reload();
+    virtual void adjustView();
 
 private slots:
     void on_pushButtonReload_clicked();

@@ -164,6 +164,10 @@ void XHashWidget::reload()
     }
 }
 
+void XHashWidget::adjustView()
+{
+}
+
 void XHashWidget::on_pushButtonReload_clicked()
 {
     reload();
