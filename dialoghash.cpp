@@ -22,11 +22,9 @@
 
 #include "ui_dialoghash.h"
 
-DialogHash::DialogHash(QWidget *pParent) : QDialog(pParent), ui(new Ui::DialogHash)
+DialogHash::DialogHash(QWidget *pParent) : XShortcutsDialog(pParent), ui(new Ui::DialogHash)
 {
     ui->setupUi(this);
-
-    setWindowFlags(Qt::Window);  // TODO options
 }
 
 DialogHash::~DialogHash()
