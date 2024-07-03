@@ -94,7 +94,7 @@ void XHashWidget::reload()
     g_hashData.nSize = g_nSize;
 
     DialogHashProcess dhp(XOptions::getMainWidget(this), g_pDevice, &g_hashData);
-
+    dhp.setGlobal(getShortcuts(), getGlobalOptions());
     dhp.showDialogDelay();
 
     if (dhp.isSuccess()) {
