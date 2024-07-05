@@ -22,7 +22,7 @@
 
 #include "ui_dialoghash.h"
 
-DialogHash::DialogHash(QWidget *pParent) : XShortcutsDialog(pParent), ui(new Ui::DialogHash)
+DialogHash::DialogHash(QWidget *pParent) : XShortcutsDialog(pParent, true), ui(new Ui::DialogHash)
 {
     ui->setupUi(this);
 }
