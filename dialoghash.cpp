@@ -32,6 +32,11 @@ DialogHash::~DialogHash()
     delete ui;
 }
 
+void DialogHash::adjustView()
+{
+
+}
+
 void DialogHash::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize)
 {
     ui->widgetHash->setData(pDevice, fileType, nOffset, nSize, true);
