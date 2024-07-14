@@ -51,3 +51,8 @@ void DialogHash::on_pushButtonClose_clicked()
 {
     this->close();
 }
+
+void DialogHash::registerShortcuts(bool bState)
+{
+    Q_UNUSED(bState)
+}
