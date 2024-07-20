@@ -34,7 +34,6 @@ DialogHash::~DialogHash()
 
 void DialogHash::adjustView()
 {
-
 }
 
 void DialogHash::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize)
