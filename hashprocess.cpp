@@ -100,7 +100,7 @@ void HashProcess::process()
                 memoryRecord.sName = QString("%1 32(CRC)").arg(tr("Import"));
                 memoryRecord.nOffset = -1;
                 memoryRecord.nSize = -1;
-                memoryRecord.sHash = XBinary::valueToHex(pe.getImportHash32(&listImportRecords));
+                memoryRecord.sHash = XBinary::valueToHex(pe.getImportHash32(&listImportRecords, g_pPdStruct));
 
                 g_pData->listMemoryRecords.append(memoryRecord);
             }
@@ -111,7 +111,7 @@ void HashProcess::process()
                 memoryRecord.sName = QString("%1 64(CRC)").arg(tr("Import"));
                 memoryRecord.nOffset = -1;
                 memoryRecord.nSize = -1;
-                memoryRecord.sHash = XBinary::valueToHex(pe.getImportHash64(&listImportRecords), g_pPdStruct);
+                memoryRecord.sHash = XBinary::valueToHex(pe.getImportHash64(&listImportRecords, g_pPdStruct));
 
                 g_pData->listMemoryRecords.append(memoryRecord);
             }
