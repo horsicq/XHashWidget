@@ -26,6 +26,9 @@ XHashWidget::XHashWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new U
 {
     ui->setupUi(this);
 
+    XOptions::addToolButtonIcon(ui->toolButtonReload, ":/icons/Refresh.16.16.png");
+    XOptions::addToolButtonIcon(ui->toolButtonSave, ":/icons/Save.16.16.png");
+
     g_pDevice = nullptr;
     g_nOffset = 0;
     g_nSize = 0;
@@ -168,7 +171,7 @@ void XHashWidget::adjustView()
 {
 }
 
-void XHashWidget::on_pushButtonReload_clicked()
+void XHashWidget::on_toolButtonReload_clicked()
 {
     reload();
 }
@@ -196,7 +199,7 @@ void XHashWidget::registerShortcuts(bool bState)
     // TODO !!!
 }
 
-void XHashWidget::on_pushButtonSave_clicked()
+void XHashWidget::on_toolButtonSave_clicked()
 {
     XShortcutsWidget::saveTableModel(ui->tableViewRegions->model(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Hash"))));
 }

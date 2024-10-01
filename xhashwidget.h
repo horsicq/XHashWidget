@@ -46,10 +46,10 @@ public:
     virtual void adjustView();
 
 private slots:
-    void on_pushButtonReload_clicked();
+    void on_toolButtonReload_clicked();
     void on_comboBoxType_currentIndexChanged(int nIndex);
     void on_comboBoxMethod_currentIndexChanged(int nIndex);
-    void on_pushButtonSave_clicked();
+    void on_toolButtonSave_clicked();
     void on_tableViewRegions_customContextMenuRequested(const QPoint &pos);
     void on_comboBoxMapMode_currentIndexChanged(int nIndex);
 
