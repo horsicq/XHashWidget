@@ -26,8 +26,18 @@ XHashWidget::XHashWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new U
 {
     ui->setupUi(this);
 
-    XOptions::addToolButtonIcon(ui->toolButtonReload, ":/icons/Refresh.16.16.png");
-    XOptions::addToolButtonIcon(ui->toolButtonSave, ":/icons/Save.16.16.png");
+    XOptions::adjustToolButton(ui->toolButtonReload, XOptions::ICONTYPE_RELOAD);
+    XOptions::adjustToolButton(ui->toolButtonSave, XOptions::ICONTYPE_SAVE);
+
+    ui->comboBoxType->setToolTip(tr("Type"));
+    ui->comboBoxMethod->setToolTip(tr("Method"));
+    ui->comboBoxMapMode->setToolTip(tr("Mode"));
+    ui->lineEditOffset->setToolTip(tr("Offset"));
+    ui->lineEditSize->setToolTip(tr("Size"));
+    ui->lineEditHash->setToolTip(tr("Hash"));
+    ui->tableViewRegions->setToolTip(tr("Regions"));
+    ui->toolButtonReload->setToolTip(tr("Reload"));
+    ui->toolButtonSave->setToolTip(tr("Save"));
 
     g_pDevice = nullptr;
     g_nOffset = 0;
