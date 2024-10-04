@@ -27,6 +27,11 @@ FORMS += \
     include($$PWD/../Controls/xlineedithex.pri)
 }
 
+!contains(XCONFIG, xtableview) {
+    XCONFIG += xtableview
+    include($$PWD/../Controls/xtableview.pri)
+}
+
 !contains(XCONFIG, xdialogprocess) {
     XCONFIG += xdialogprocess
     include($$PWD/../FormatDialogs/xdialogprocess.pri)

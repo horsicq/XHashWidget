@@ -160,7 +160,7 @@ void XHashWidget::reload()
         XOptions::setModelTextAlignment(pModel, 2, Qt::AlignRight | Qt::AlignVCenter);
         XOptions::setModelTextAlignment(pModel, 3, Qt::AlignLeft | Qt::AlignVCenter);
 
-        ui->tableViewRegions->setModel(pModel);
+        ui->tableViewRegions->setCustomModel(pModel, true);
 
         deleteOldAbstractModel(&pOldModel);
 
