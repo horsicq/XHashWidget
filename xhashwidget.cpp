@@ -162,7 +162,7 @@ void XHashWidget::reload()
 
         ui->tableViewRegions->setCustomModel(pModel, true);
 
-        //deleteOldAbstractModel(&pOldModel);
+        // deleteOldAbstractModel(&pOldModel);
 
         ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
         ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
