@@ -113,7 +113,7 @@ void XHashWidget::reload()
     if (dhp.isSuccess()) {
         ui->lineEditHash->setValue_String(g_hashData.sHash);
 
-        QAbstractItemModel *pOldModel = ui->tableViewRegions->model();
+        // QAbstractItemModel *pOldModel = ui->tableViewRegions->model();
 
         qint32 nNumberOfMemoryRecords = g_hashData.listMemoryRecords.count();
 
@@ -162,7 +162,7 @@ void XHashWidget::reload()
 
         ui->tableViewRegions->setCustomModel(pModel, true);
 
-        deleteOldAbstractModel(&pOldModel);
+        //deleteOldAbstractModel(&pOldModel);
 
         ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
         ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
