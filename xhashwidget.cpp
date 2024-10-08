@@ -113,8 +113,6 @@ void XHashWidget::reload()
     if (dhp.isSuccess()) {
         ui->lineEditHash->setValue_String(g_hashData.sHash);
 
-        // QAbstractItemModel *pOldModel = ui->tableViewRegions->model();
-
         qint32 nNumberOfMemoryRecords = g_hashData.listMemoryRecords.count();
 
         QStandardItemModel *pModel = new QStandardItemModel(nNumberOfMemoryRecords, 4);
@@ -161,8 +159,6 @@ void XHashWidget::reload()
         XOptions::setModelTextAlignment(pModel, 3, Qt::AlignLeft | Qt::AlignVCenter);
 
         ui->tableViewRegions->setCustomModel(pModel, true);
-
-        // deleteOldAbstractModel(&pOldModel);
 
         ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
         ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
@@ -211,7 +207,7 @@ void XHashWidget::registerShortcuts(bool bState)
 
 void XHashWidget::on_toolButtonSave_clicked()
 {
-    XShortcutsWidget::saveTableModel(ui->tableViewRegions->model(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Hash"))));
+    XShortcutsWidget::saveTableModel(ui->tableViewRegions->getProxyModel(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Hash"))));
 }
 
 void XHashWidget::on_tableViewRegions_customContextMenuRequested(const QPoint &pos)
