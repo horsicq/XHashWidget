@@ -216,8 +216,9 @@ void XHashWidget::on_tableViewRegions_customContextMenuRequested(const QPoint &p
 
     if (nRow != -1) {
         QMenu contextMenu(this);
+        QMenu menuCopy(this);
 
-        contextMenu.addMenu(getShortcuts()->getRowCopyMenu(this, ui->tableViewRegions));
+        getShortcuts()->adjustRowCopyMenu(&contextMenu, &menuCopy, ui->tableViewRegions);
 
         contextMenu.exec(ui->tableViewRegions->viewport()->mapToGlobal(pos));
     }
