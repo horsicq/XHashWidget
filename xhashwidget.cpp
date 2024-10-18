@@ -215,12 +215,17 @@ void XHashWidget::on_tableViewRegions_customContextMenuRequested(const QPoint &p
     qint32 nRow = ui->tableViewRegions->currentIndex().row();
 
     if (nRow != -1) {
-        QMenu contextMenu(this);
-        QMenu menuCopy(this);
+        QMenu contextMenu(this); // TODO
 
-        getShortcuts()->adjustRowCopyMenu(&contextMenu, &menuCopy, ui->tableViewRegions);
+        QList<XShortcuts::MENUITEM> listMenuItems;
+
+        getShortcuts()->_addMenuItem_CopyRow(&listMenuItems, ui->tableViewRegions);
+
+        QList<QObject *> listObjects = getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
 
         contextMenu.exec(ui->tableViewRegions->viewport()->mapToGlobal(pos));
+
+        XOptions::deleteQObjectList(&listObjects);
     }
 }
 
