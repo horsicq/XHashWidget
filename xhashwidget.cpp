@@ -215,7 +215,7 @@ void XHashWidget::on_tableViewRegions_customContextMenuRequested(const QPoint &p
     qint32 nRow = ui->tableViewRegions->currentIndex().row();
 
     if (nRow != -1) {
-        QMenu contextMenu(this);  // TODO
+        QMenu contextMenu(this);
 
         QList<XShortcuts::MENUITEM> listMenuItems;
 
