@@ -126,8 +126,6 @@ void XHashWidget::reload()
             QStandardItem *pItemName = new QStandardItem;
 
             pItemName->setText(g_hashData.listMemoryRecords.at(i).sName);
-            pItemName->setData(g_hashData.listMemoryRecords.at(i).nOffset, Qt::UserRole + 0);
-            pItemName->setData(g_hashData.listMemoryRecords.at(i).nSize, Qt::UserRole + 1);
 
             pModel->setItem(i, 0, pItemName);
 
@@ -135,6 +133,7 @@ void XHashWidget::reload()
                 QStandardItem *pItemOffset = new QStandardItem;
 
                 pItemOffset->setText(XLineEditHEX::getFormatString(g_hashData.mode, g_hashData.listMemoryRecords.at(i).nOffset));
+                // pItemOffset->setData(g_hashData.listMemoryRecords.at(i).nOffset, Qt::DisplayRole);
                 pModel->setItem(i, 1, pItemOffset);
             }
 
@@ -142,6 +141,7 @@ void XHashWidget::reload()
                 QStandardItem *pItemSize = new QStandardItem;
 
                 pItemSize->setText(XLineEditHEX::getFormatString(g_hashData.mode, g_hashData.listMemoryRecords.at(i).nSize));
+                // pItemSize->setData(g_hashData.listMemoryRecords.at(i).nSize, Qt::DisplayRole);
                 pModel->setItem(i, 2, pItemSize);
             }
 
