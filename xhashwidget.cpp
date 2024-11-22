@@ -179,9 +179,8 @@ void XHashWidget::adjustView()
 
 void XHashWidget::reloadData(bool bSaveSelection)
 {
-    if (!bSaveSelection) {
-        reload();
-    }
+    Q_UNUSED(bSaveSelection)
+    reload();
 }
 
 void XHashWidget::on_toolButtonReload_clicked()
