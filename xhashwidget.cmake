@@ -3,9 +3,14 @@ include_directories(${CMAKE_CURRENT_LIST_DIR})
 # TODO Check includes
 # xformats
 # xlineedithex
-include(${CMAKE_CURRENT_LIST_DIR}/../FormatDialogs/xdialogprocess.cmake)
+
+if (NOT DEFINED XDIALOGPROCESS_SOURCES)
+    include(${CMAKE_CURRENT_LIST_DIR}/../FormatDialogs/xdialogprocess.cmake)
+    set(XHASHWIDGET_SOURCES ${XHASHWIDGET_SOURCES} ${XDIALOGPROCESS_SOURCES})
+endif()
 
 set(XHASHWIDGET_SOURCES
+    ${XHASHWIDGET_SOURCES}
     ${XDIALOGPROCESS_SOURCES}
     ${CMAKE_CURRENT_LIST_DIR}/dialoghash.cpp
     ${CMAKE_CURRENT_LIST_DIR}/dialoghash.h
