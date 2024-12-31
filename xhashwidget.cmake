@@ -11,7 +11,6 @@ endif()
 
 set(XHASHWIDGET_SOURCES
     ${XHASHWIDGET_SOURCES}
-    ${XDIALOGPROCESS_SOURCES}
     ${CMAKE_CURRENT_LIST_DIR}/dialoghash.cpp
     ${CMAKE_CURRENT_LIST_DIR}/dialoghash.h
     ${CMAKE_CURRENT_LIST_DIR}/dialoghash.ui
