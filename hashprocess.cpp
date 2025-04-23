@@ -91,7 +91,7 @@ void HashProcess::process()
     if (XBinary::checkFileType(XBinary::FT_PE, g_pData->fileType)) {
         XPE pe(this->g_pDevice);
 
-        if (pe.isValid()) {
+        if (pe.isValid(g_pPdStruct)) {
             QList<XPE::IMPORT_RECORD> listImportRecords = pe.getImportRecords(&memoryMap);
 
             {
