@@ -121,7 +121,7 @@ void HashProcess::process()
 
             qint32 nNumberOfImports = listImports.count();
 
-            for (qint32 i = 0; (i < nNumberOfImports) && (!(g_pPdStruct->bIsStop)); i++) {
+            for (qint32 i = 0; (i < nNumberOfImports) && XBinary::isPdStructNotCanceled(g_pPdStruct); i++) {
                 MEMORY_RECORD memoryRecord = {};
 
                 memoryRecord.sName = QString("%1(%2)(CRC)['%3']").arg(tr("Import"), QString::number(i), listImports.at(i).sName);
