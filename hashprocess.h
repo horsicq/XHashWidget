@@ -23,8 +23,9 @@
 
 #include "xformats.h"
 #include "xlineedithex.h"
+#include "xthreadobject.h"
 
-class HashProcess : public QObject {
+class HashProcess : public XThreadObject {
     Q_OBJECT
 
 public:
@@ -49,12 +50,6 @@ public:
     explicit HashProcess(QObject *pParent = nullptr);
 
     void setData(QIODevice *pDevice, DATA *pData, XBinary::PDSTRUCT *pPdStruct);
-
-signals:
-    void errorMessage(const QString &sText);
-    void completed(qint64 nElapsed);
-
-public slots:
     void process();
 
 private:

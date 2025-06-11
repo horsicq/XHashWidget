@@ -27,7 +27,7 @@ DialogHashProcess::DialogHashProcess(QWidget *pParent) : XDialogProcess(pParent)
 
     g_pHashProcess->moveToThread(g_pThread);
 
-    connect(g_pThread, SIGNAL(started()), g_pHashProcess, SLOT(process()));
+    connect(g_pThread, SIGNAL(started()), g_pHashProcess, SLOT(_process()));
     connect(g_pHashProcess, SIGNAL(completed(qint64)), this, SLOT(onCompleted(qint64)));
     connect(g_pHashProcess, SIGNAL(errorMessage(QString)), this, SLOT(errorMessageSlot(QString)));
 }
