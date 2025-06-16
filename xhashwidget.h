@@ -26,7 +26,8 @@
 #include <QItemSelection>
 #include <QStandardItemModel>
 
-#include "dialoghashprocess.h"
+#include "hashprocess.h"
+#include "xdialogprocess.h"
 #include "xformats.h"
 #include "xshortcutswidget.h"
 

@@ -106,8 +106,11 @@ void XHashWidget::reload()
     g_hashData.nOffset = g_nOffset;
     g_hashData.nSize = g_nSize;
 
-    DialogHashProcess dhp(XOptions::getMainWidget(this), g_pDevice, &g_hashData);
+    HashProcess hashProcess;
+    XDialogProcess dhp(XOptions::getMainWidget(this), &hashProcess);
     dhp.setGlobal(getShortcuts(), getGlobalOptions());
+    hashProcess.setData(g_pDevice, &g_hashData, dhp.getPdStruct());
+    dhp.start();
     dhp.showDialogDelay();
 
     if (dhp.isSuccess()) {
