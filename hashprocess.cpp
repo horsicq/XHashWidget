@@ -37,8 +37,6 @@ void HashProcess::setData(QIODevice *pDevice, DATA *pData, XBinary::PDSTRUCT *pP
 void HashProcess::process()
 {
     // TODO the second ProgressBar
-    QElapsedTimer scanTimer;
-    scanTimer.start();
 
     qint32 _nFreeIndex = XBinary::getFreeIndex(g_pPdStruct);
     XBinary::setPdStructInit(g_pPdStruct, _nFreeIndex, 0);  // TODO Total / Check
@@ -135,6 +133,4 @@ void HashProcess::process()
     }
 
     XBinary::setPdStructFinished(g_pPdStruct, _nFreeIndex);
-
-    emit completed(scanTimer.elapsed());
 }
