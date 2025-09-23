@@ -24,28 +24,28 @@ HashProcess::HashProcess(QObject *pParent) : XThreadObject(pParent)
 {
     g_pDevice = nullptr;
     g_pData = nullptr;
-    g_pPdStruct = nullptr;
+    m_pPdStruct = nullptr;
 }
 
 void HashProcess::setData(QIODevice *pDevice, DATA *pData, XBinary::PDSTRUCT *pPdStruct)
 {
     this->g_pDevice = pDevice;
     this->g_pData = pData;
-    this->g_pPdStruct = pPdStruct;
+    this->m_pPdStruct = pPdStruct;
 }
 
 void HashProcess::process()
 {
     // TODO the second ProgressBar
 
-    qint32 _nFreeIndex = XBinary::getFreeIndex(g_pPdStruct);
-    XBinary::setPdStructInit(g_pPdStruct, _nFreeIndex, 0);  // TODO Total / Check
+    qint32 _nFreeIndex = XBinary::getFreeIndex(m_pPdStruct);
+    XBinary::setPdStructInit(m_pPdStruct, _nFreeIndex, 0);  // TODO Total / Check
 
     XBinary g_binary(this->g_pDevice);
 
     connect(&g_binary, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
 
-    g_pData->sHash = g_binary.getHash(g_pData->hash, g_pData->nOffset, g_pData->nSize, this->g_pPdStruct);
+    g_pData->sHash = g_binary.getHash(g_pData->hash, g_pData->nOffset, g_pData->nSize, this->m_pPdStruct);
 
     g_pData->listMemoryRecords.clear();
 
@@ -63,7 +63,7 @@ void HashProcess::process()
 
     qint32 nNumberOfRecords = memoryMap.listRecords.count();
 
-    for (qint32 i = 0, j = 0; (i < nNumberOfRecords) && XBinary::isPdStructNotCanceled(g_pPdStruct); i++) {
+    for (qint32 i = 0, j = 0; (i < nNumberOfRecords) && XBinary::isPdStructNotCanceled(m_pPdStruct); i++) {
         bool bIsVirtual = memoryMap.listRecords.at(i).bIsVirtual;
 
         if (!bIsVirtual) {
@@ -73,7 +73,7 @@ void HashProcess::process()
                 memoryRecord.sHash = g_pData->sHash;
             } else {
                 memoryRecord.sHash =
-                    g_binary.getHash(g_pData->hash, g_pData->nOffset + memoryMap.listRecords.at(i).nOffset, memoryMap.listRecords.at(i).nSize, this->g_pPdStruct);
+                    g_binary.getHash(g_pData->hash, g_pData->nOffset + memoryMap.listRecords.at(i).nOffset, memoryMap.listRecords.at(i).nSize, this->m_pPdStruct);
             }
 
             memoryRecord.sName = memoryMap.listRecords.at(i).sName;
@@ -89,7 +89,7 @@ void HashProcess::process()
     if (XBinary::checkFileType(XBinary::FT_PE, g_pData->fileType)) {
         XPE pe(this->g_pDevice);
 
-        if (pe.isValid(g_pPdStruct)) {
+        if (pe.isValid(m_pPdStruct)) {
             QList<XPE::IMPORT_RECORD> listImportRecords = pe.getImportRecords(&memoryMap);
 
             {
@@ -98,7 +98,7 @@ void HashProcess::process()
                 memoryRecord.sName = QString("%1 32(CRC)").arg(tr("Import"));
                 memoryRecord.nOffset = -1;
                 memoryRecord.nSize = -1;
-                memoryRecord.sHash = XBinary::valueToHex(pe.getImportHash32(&listImportRecords, g_pPdStruct));
+                memoryRecord.sHash = XBinary::valueToHex(pe.getImportHash32(&listImportRecords, m_pPdStruct));
 
                 g_pData->listMemoryRecords.append(memoryRecord);
             }
@@ -109,7 +109,7 @@ void HashProcess::process()
                 memoryRecord.sName = QString("%1 64(CRC)").arg(tr("Import"));
                 memoryRecord.nOffset = -1;
                 memoryRecord.nSize = -1;
-                memoryRecord.sHash = XBinary::valueToHex(pe.getImportHash64(&listImportRecords, g_pPdStruct));
+                memoryRecord.sHash = XBinary::valueToHex(pe.getImportHash64(&listImportRecords, m_pPdStruct));
 
                 g_pData->listMemoryRecords.append(memoryRecord);
             }
@@ -119,7 +119,7 @@ void HashProcess::process()
 
             qint32 nNumberOfImports = listImports.count();
 
-            for (qint32 i = 0; (i < nNumberOfImports) && XBinary::isPdStructNotCanceled(g_pPdStruct); i++) {
+            for (qint32 i = 0; (i < nNumberOfImports) && XBinary::isPdStructNotCanceled(m_pPdStruct); i++) {
                 MEMORY_RECORD memoryRecord = {};
 
                 memoryRecord.sName = QString("%1(%2)(CRC)['%3']").arg(tr("Import"), QString::number(i), listImports.at(i).sName);
@@ -132,5 +132,5 @@ void HashProcess::process()
         }
     }
 
-    XBinary::setPdStructFinished(g_pPdStruct, _nFreeIndex);
+    XBinary::setPdStructFinished(m_pPdStruct, _nFreeIndex);
 }
