@@ -53,8 +53,8 @@ public:
     void process();
 
 private:
-    QIODevice *g_pDevice;
-    DATA *g_pData;
+    QIODevice *m_pDevice;
+    DATA *m_pData;
     XBinary::PDSTRUCT *m_pPdStruct;
 };
 

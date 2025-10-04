@@ -22,15 +22,15 @@
 
 HashProcess::HashProcess(QObject *pParent) : XThreadObject(pParent)
 {
-    g_pDevice = nullptr;
-    g_pData = nullptr;
+    m_pDevice = nullptr;
+    m_pData = nullptr;
     m_pPdStruct = nullptr;
 }
 
 void HashProcess::setData(QIODevice *pDevice, DATA *pData, XBinary::PDSTRUCT *pPdStruct)
 {
-    this->g_pDevice = pDevice;
-    this->g_pData = pData;
+    this->m_pDevice = pDevice;
+    this->m_pData = pData;
     this->m_pPdStruct = pPdStruct;
 }
 
@@ -41,25 +41,25 @@ void HashProcess::process()
     qint32 _nFreeIndex = XBinary::getFreeIndex(m_pPdStruct);
     XBinary::setPdStructInit(m_pPdStruct, _nFreeIndex, 0);  // TODO Total / Check
 
-    XBinary g_binary(this->g_pDevice);
+    XBinary g_binary(this->m_pDevice);
 
     connect(&g_binary, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
 
-    g_pData->sHash = g_binary.getHash(g_pData->hash, g_pData->nOffset, g_pData->nSize, this->m_pPdStruct);
+    m_pData->sHash = g_binary.getHash(m_pData->hash, m_pData->nOffset, m_pData->nSize, this->m_pPdStruct);
 
-    g_pData->listMemoryRecords.clear();
+    m_pData->listMemoryRecords.clear();
 
-    XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap(g_pData->fileType, g_pData->mapMode, this->g_pDevice);
+    XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap(m_pData->fileType, m_pData->mapMode, this->m_pDevice);
 
-    g_pData->mode = XLineEditValidator::MODE_HEX_32;
+    m_pData->mode = XLineEditValidator::MODE_HEX_32;
 
     XBinary::MODE _mode = XBinary::getWidthModeFromMemoryMap(&memoryMap);
 
     // mb TODO a function !!! TODO move to Widget Check
-    if (_mode == XBinary::MODE_8) g_pData->mode = XLineEditValidator::MODE_HEX_8;
-    else if (_mode == XBinary::MODE_16) g_pData->mode = XLineEditValidator::MODE_HEX_16;
-    else if (_mode == XBinary::MODE_32) g_pData->mode = XLineEditValidator::MODE_HEX_32;
-    else if (_mode == XBinary::MODE_64) g_pData->mode = XLineEditValidator::MODE_HEX_64;
+    if (_mode == XBinary::MODE_8) m_pData->mode = XLineEditValidator::MODE_HEX_8;
+    else if (_mode == XBinary::MODE_16) m_pData->mode = XLineEditValidator::MODE_HEX_16;
+    else if (_mode == XBinary::MODE_32) m_pData->mode = XLineEditValidator::MODE_HEX_32;
+    else if (_mode == XBinary::MODE_64) m_pData->mode = XLineEditValidator::MODE_HEX_64;
 
     qint32 nNumberOfRecords = memoryMap.listRecords.count();
 
@@ -69,25 +69,25 @@ void HashProcess::process()
         if (!bIsVirtual) {
             MEMORY_RECORD memoryRecord = {};
 
-            if ((memoryMap.listRecords.at(i).nOffset == 0) && (memoryMap.listRecords.at(i).nSize == g_pData->nSize)) {
-                memoryRecord.sHash = g_pData->sHash;
+            if ((memoryMap.listRecords.at(i).nOffset == 0) && (memoryMap.listRecords.at(i).nSize == m_pData->nSize)) {
+                memoryRecord.sHash = m_pData->sHash;
             } else {
                 memoryRecord.sHash =
-                    g_binary.getHash(g_pData->hash, g_pData->nOffset + memoryMap.listRecords.at(i).nOffset, memoryMap.listRecords.at(i).nSize, this->m_pPdStruct);
+                    g_binary.getHash(m_pData->hash, m_pData->nOffset + memoryMap.listRecords.at(i).nOffset, memoryMap.listRecords.at(i).nSize, this->m_pPdStruct);
             }
 
             memoryRecord.sName = memoryMap.listRecords.at(i).sName;
             memoryRecord.nOffset = memoryMap.listRecords.at(i).nOffset;
             memoryRecord.nSize = memoryMap.listRecords.at(i).nSize;
 
-            g_pData->listMemoryRecords.append(memoryRecord);
+            m_pData->listMemoryRecords.append(memoryRecord);
 
             j++;
         }
     }
 
-    if (XBinary::checkFileType(XBinary::FT_PE, g_pData->fileType)) {
-        XPE pe(this->g_pDevice);
+    if (XBinary::checkFileType(XBinary::FT_PE, m_pData->fileType)) {
+        XPE pe(this->m_pDevice);
 
         if (pe.isValid(m_pPdStruct)) {
             QList<XPE::IMPORT_RECORD> listImportRecords = pe.getImportRecords(&memoryMap);
@@ -100,7 +100,7 @@ void HashProcess::process()
                 memoryRecord.nSize = -1;
                 memoryRecord.sHash = XBinary::valueToHex(pe.getImportHash32(&listImportRecords, m_pPdStruct));
 
-                g_pData->listMemoryRecords.append(memoryRecord);
+                m_pData->listMemoryRecords.append(memoryRecord);
             }
 
             {
@@ -111,7 +111,7 @@ void HashProcess::process()
                 memoryRecord.nSize = -1;
                 memoryRecord.sHash = XBinary::valueToHex(pe.getImportHash64(&listImportRecords, m_pPdStruct));
 
-                g_pData->listMemoryRecords.append(memoryRecord);
+                m_pData->listMemoryRecords.append(memoryRecord);
             }
 
             QList<XPE::IMPORT_HEADER> listImports = pe.getImports(&memoryMap);
@@ -127,7 +127,7 @@ void HashProcess::process()
                 memoryRecord.nSize = -1;
                 memoryRecord.sHash = XBinary::valueToHex(listHashes.at(i));
 
-                g_pData->listMemoryRecords.append(memoryRecord);
+                m_pData->listMemoryRecords.append(memoryRecord);
             }
         }
     }

@@ -39,7 +39,7 @@ XHashWidget::XHashWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new U
     ui->toolButtonReload->setToolTip(tr("Reload"));
     ui->toolButtonSave->setToolTip(tr("Save"));
 
-    g_pDevice = nullptr;
+    m_pDevice = nullptr;
     g_nOffset = 0;
     g_nSize = 0;
     g_hashData = {};
@@ -72,7 +72,7 @@ XHashWidget::~XHashWidget()
 
 void XHashWidget::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize, bool bAuto)
 {
-    this->g_pDevice = pDevice;
+    this->m_pDevice = pDevice;
     this->g_nOffset = nOffset;
     this->g_nSize = nSize;
 
@@ -109,7 +109,7 @@ void XHashWidget::reload()
     HashProcess hashProcess;
     XDialogProcess dhp(XOptions::getMainWidget(this), &hashProcess);
     dhp.setGlobal(getShortcuts(), getGlobalOptions());
-    hashProcess.setData(g_pDevice, &g_hashData, dhp.getPdStruct());
+    hashProcess.setData(m_pDevice, &g_hashData, dhp.getPdStruct());
     dhp.start();
     dhp.showDialogDelay();
 
@@ -216,7 +216,7 @@ void XHashWidget::registerShortcuts(bool bState)
 
 void XHashWidget::on_toolButtonSave_clicked()
 {
-    XShortcutsWidget::saveTableModel(ui->tableViewRegions->getProxyModel(), XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Hash"))));
+    XShortcutsWidget::saveTableModel(ui->tableViewRegions->getProxyModel(), XBinary::getResultFileName(m_pDevice, QString("%1.txt").arg(tr("Hash"))));
 }
 
 void XHashWidget::on_tableViewRegions_customContextMenuRequested(const QPoint &pos)
