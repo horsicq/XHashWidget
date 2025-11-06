@@ -230,11 +230,11 @@ void XHashWidget::on_tableViewRegions_customContextMenuRequested(const QPoint &p
 
         getShortcuts()->_addMenuItem_CopyRow(&listMenuItems, ui->tableViewRegions);
 
-        QList<QObject *> listObjects = getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
+        getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
 
         contextMenu.exec(ui->tableViewRegions->viewport()->mapToGlobal(pos));
 
-        XOptions::deleteQObjectList(&listObjects);
+        
     }
 }
 
