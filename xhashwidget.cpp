@@ -233,8 +233,6 @@ void XHashWidget::on_tableViewRegions_customContextMenuRequested(const QPoint &p
         getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
 
         contextMenu.exec(ui->tableViewRegions->viewport()->mapToGlobal(pos));
-
-        
     }
 }
 
