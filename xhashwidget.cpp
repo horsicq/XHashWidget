@@ -40,9 +40,9 @@ XHashWidget::XHashWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new U
     ui->toolButtonSave->setToolTip(tr("Save"));
 
     m_pDevice = nullptr;
-    g_nOffset = 0;
-    g_nSize = 0;
-    g_hashData = {};
+    m_nOffset = 0;
+    m_nSize = 0;
+    m_hashData = {};
 
     ui->lineEditHash->setValidatorMode(XLineEditValidator::MODE_TEXT);
 
@@ -73,17 +73,17 @@ XHashWidget::~XHashWidget()
 void XHashWidget::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize, bool bAuto)
 {
     this->m_pDevice = pDevice;
-    this->g_nOffset = nOffset;
-    this->g_nSize = nSize;
+    this->m_nOffset = nOffset;
+    this->m_nSize = nSize;
 
-    if (this->g_nSize == -1) {
-        this->g_nSize = (pDevice->size()) - (this->g_nOffset);
+    if (this->m_nSize == -1) {
+        this->m_nSize = (pDevice->size()) - (this->m_nOffset);
     }
 
-    ui->lineEditOffset->setValue32_64(this->g_nOffset);
-    ui->lineEditSize->setValue32_64(this->g_nSize);
+    ui->lineEditOffset->setValue32_64(this->m_nOffset);
+    ui->lineEditSize->setValue32_64(this->m_nSize);
 
-    SubDevice subDevice(pDevice, this->g_nOffset, this->g_nSize);
+    SubDevice subDevice(pDevice, this->m_nOffset, this->m_nSize);
 
     if (subDevice.open(QIODevice::ReadOnly)) {
         XFormats::setFileTypeComboBox(fileType, &subDevice, ui->comboBoxType);
@@ -100,23 +100,23 @@ void XHashWidget::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffs
 void XHashWidget::reload()
 {
     // TODO QTableView
-    g_hashData.hash = (XBinary::HASH)ui->comboBoxMethod->currentData().toInt();
-    g_hashData.fileType = (XBinary::FT)(ui->comboBoxType->currentData().toInt());
-    g_hashData.mapMode = (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toInt());
-    g_hashData.nOffset = g_nOffset;
-    g_hashData.nSize = g_nSize;
+    m_hashData.hash = (XBinary::HASH)ui->comboBoxMethod->currentData().toInt();
+    m_hashData.fileType = (XBinary::FT)(ui->comboBoxType->currentData().toInt());
+    m_hashData.mapMode = (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toInt());
+    m_hashData.nOffset = m_nOffset;
+    m_hashData.nSize = m_nSize;
 
     HashProcess hashProcess;
     XDialogProcess dhp(XOptions::getMainWidget(this), &hashProcess);
     dhp.setGlobal(getShortcuts(), getGlobalOptions());
-    hashProcess.setData(m_pDevice, &g_hashData, dhp.getPdStruct());
+    hashProcess.setData(m_pDevice, &m_hashData, dhp.getPdStruct());
     dhp.start();
     dhp.showDialogDelay();
 
     if (dhp.isSuccess()) {
-        ui->lineEditHash->setValue_String(g_hashData.sHash);
+        ui->lineEditHash->setValue_String(m_hashData.sHash);
 
-        qint32 nNumberOfMemoryRecords = g_hashData.listMemoryRecords.count();
+        qint32 nNumberOfMemoryRecords = m_hashData.listMemoryRecords.count();
 
         QStandardItemModel *pModel = new QStandardItemModel(nNumberOfMemoryRecords, 4);
 
@@ -128,29 +128,29 @@ void XHashWidget::reload()
         for (qint32 i = 0; i < nNumberOfMemoryRecords; i++) {
             QStandardItem *pItemName = new QStandardItem;
 
-            pItemName->setText(g_hashData.listMemoryRecords.at(i).sName);
+            pItemName->setText(m_hashData.listMemoryRecords.at(i).sName);
 
             pModel->setItem(i, 0, pItemName);
 
-            if (g_hashData.listMemoryRecords.at(i).nOffset != -1) {
+            if (m_hashData.listMemoryRecords.at(i).nOffset != -1) {
                 QStandardItem *pItemOffset = new QStandardItem;
 
-                pItemOffset->setText(XLineEditHEX::getFormatString(g_hashData.mode, g_hashData.listMemoryRecords.at(i).nOffset));
-                // pItemOffset->setData(g_hashData.listMemoryRecords.at(i).nOffset, Qt::DisplayRole);
+                pItemOffset->setText(XLineEditHEX::getFormatString(m_hashData.mode, m_hashData.listMemoryRecords.at(i).nOffset));
+                // pItemOffset->setData(m_hashData.listMemoryRecords.at(i).nOffset, Qt::DisplayRole);
                 pModel->setItem(i, 1, pItemOffset);
             }
 
-            if (g_hashData.listMemoryRecords.at(i).nSize != -1) {
+            if (m_hashData.listMemoryRecords.at(i).nSize != -1) {
                 QStandardItem *pItemSize = new QStandardItem;
 
-                pItemSize->setText(XLineEditHEX::getFormatString(g_hashData.mode, g_hashData.listMemoryRecords.at(i).nSize));
-                // pItemSize->setData(g_hashData.listMemoryRecords.at(i).nSize, Qt::DisplayRole);
+                pItemSize->setText(XLineEditHEX::getFormatString(m_hashData.mode, m_hashData.listMemoryRecords.at(i).nSize));
+                // pItemSize->setData(m_hashData.listMemoryRecords.at(i).nSize, Qt::DisplayRole);
                 pModel->setItem(i, 2, pItemSize);
             }
 
             QStandardItem *pItemHash = new QStandardItem;
 
-            QString sHash = g_hashData.listMemoryRecords.at(i).sHash;
+            QString sHash = m_hashData.listMemoryRecords.at(i).sHash;
 
             pItemHash->setText(sHash);
             pModel->setItem(i, 3, pItemHash);
@@ -168,7 +168,7 @@ void XHashWidget::reload()
         ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Interactive);
         ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
 
-        qint32 nColumnSize = XLineEditHEX::getWidthFromMode(this, g_hashData.mode);
+        qint32 nColumnSize = XLineEditHEX::getWidthFromMode(this, m_hashData.mode);
 
         ui->tableViewRegions->setColumnWidth(0, 150);  // TODO consts
         ui->tableViewRegions->setColumnWidth(1, nColumnSize);

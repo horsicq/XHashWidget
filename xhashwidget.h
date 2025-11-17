@@ -61,9 +61,9 @@ protected:
 private:
     Ui::XHashWidget *ui;
     QIODevice *m_pDevice;
-    qint64 g_nOffset;
-    qint64 g_nSize;
-    HashProcess::DATA g_hashData;
+    qint64 m_nOffset;
+    qint64 m_nSize;
+    HashProcess::DATA m_hashData;
 };
 
 #endif  // XHASHWIDGET_H
