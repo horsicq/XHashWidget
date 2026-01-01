@@ -41,11 +41,11 @@ void HashProcess::process()
     qint32 _nFreeIndex = XBinary::getFreeIndex(m_pPdStruct);
     XBinary::setPdStructInit(m_pPdStruct, _nFreeIndex, 0);  // TODO Total / Check
 
-    XBinary g_binary(this->m_pDevice);
+    XBinary binary(this->m_pDevice);
 
-    connect(&g_binary, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
+    connect(&binary, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
 
-    m_pData->sHash = g_binary.getHash(m_pData->hash, m_pData->nOffset, m_pData->nSize, this->m_pPdStruct);
+    m_pData->sHash = binary.getHash(m_pData->hash, m_pData->nOffset, m_pData->nSize, this->m_pPdStruct);
 
     m_pData->listMemoryRecords.clear();
 
@@ -73,7 +73,7 @@ void HashProcess::process()
                 memoryRecord.sHash = m_pData->sHash;
             } else {
                 memoryRecord.sHash =
-                    g_binary.getHash(m_pData->hash, m_pData->nOffset + memoryMap.listRecords.at(i).nOffset, memoryMap.listRecords.at(i).nSize, this->m_pPdStruct);
+                    binary.getHash(m_pData->hash, m_pData->nOffset + memoryMap.listRecords.at(i).nOffset, memoryMap.listRecords.at(i).nSize, this->m_pPdStruct);
             }
 
             memoryRecord.sName = memoryMap.listRecords.at(i).sName;
