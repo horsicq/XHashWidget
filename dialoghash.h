@@ -34,18 +34,16 @@ class DialogHash : public XShortcutsDialog {
 
 public:
     explicit DialogHash(QWidget *pParent);
-    ~DialogHash();
+    DialogHash(QWidget *pParent, QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset = 0, qint64 nSize = -1);
+    ~DialogHash() override;
 
-    virtual void adjustView();
+    void adjustView() override;
 
     void setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset = 0, qint64 nSize = -1);
-    void setGlobal(XShortcuts *pShortcuts, XOptions *pXOptions);
-
-private slots:
-    void on_pushButtonClose_clicked();
+    void setGlobal(XShortcuts *pShortcuts, XOptions *pXOptions) override;
 
 protected:
-    virtual void registerShortcuts(bool bState);
+    void registerShortcuts(bool bState) override;
 
 private:
     Ui::DialogHash *ui;

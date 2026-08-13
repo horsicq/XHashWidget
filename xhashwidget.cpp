@@ -39,9 +39,27 @@ XHashWidget::XHashWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new U
     ui->toolButtonReload->setToolTip(tr("Reload"));
     ui->toolButtonSave->setToolTip(tr("Save"));
 
+    ui->comboBoxType->setAccessibleName(tr("Type"));
+    ui->comboBoxMapMode->setAccessibleName(tr("Mode"));
+    ui->comboBoxMethod->setAccessibleName(tr("Method"));
+    ui->lineEditOffset->setAccessibleName(tr("Offset"));
+    ui->lineEditSize->setAccessibleName(tr("Size"));
+    ui->lineEditHash->setAccessibleName(tr("Hash"));
+    ui->tableViewRegions->setAccessibleName(tr("Regions"));
+    ui->toolButtonReload->setAccessibleName(tr("Reload"));
+    ui->toolButtonSave->setAccessibleName(tr("Save"));
+    ui->lineEditHash->setAccessibleDescription(tr("Calculated hash for the selected range"));
+    ui->tableViewRegions->setAccessibleDescription(tr("Hashes for regions inside the selected range"));
+    ui->labelStatus->setAccessibleName(tr("Status"));
+
     ui->lineEditHash->setValidatorMode(XLineEditValidator::MODE_TEXT);
 
     populateHashMethods();
+
+    m_hashData.mode = XLineEditValidator::MODE_HEX_32;
+    clearResults();
+    setDataControlsEnabled(false);
+    setStatus(tr("No readable data is available for hashing."));
 }
 
 XHashWidget::~XHashWidget()
@@ -51,8 +69,70 @@ XHashWidget::~XHashWidget()
 
 void XHashWidget::clearResults()
 {
-    ui->lineEditHash->clear();
-    ui->tableViewRegions->setCustomModel(new QStandardItemModel(0, 0), true);
+    m_hashData.sHash.clear();
+    m_hashData.listMemoryRecords.clear();
+    ui->lineEditHash->setValue_String(QString());
+    fillRegionsModel();
+    ui->toolButtonSave->setEnabled(false);
+}
+
+void XHashWidget::invalidateData(const QString &sStatus)
+{
+    m_pDevice.clear();
+    m_nOffset = 0;
+    m_nSize = 0;
+    m_hashData = {};
+    m_hashData.mode = XLineEditValidator::MODE_HEX_32;
+
+    const bool bTypeBlocked = ui->comboBoxType->blockSignals(true);
+    const bool bMapModeBlocked = ui->comboBoxMapMode->blockSignals(true);
+    ui->comboBoxType->clear();
+    ui->comboBoxMapMode->clear();
+    ui->comboBoxType->blockSignals(bTypeBlocked);
+    ui->comboBoxMapMode->blockSignals(bMapModeBlocked);
+
+    ui->lineEditOffset->clear();
+    ui->lineEditSize->clear();
+    clearResults();
+    setDataControlsEnabled(false);
+    setStatus(sStatus);
+}
+
+bool XHashWidget::isDataReady() const
+{
+    QIODevice *pDevice = m_pDevice.data();
+
+    if (!pDevice || !pDevice->isOpen() || !pDevice->isReadable() || pDevice->isSequential() || (m_nOffset < 0) || (m_nSize <= 0)) {
+        return false;
+    }
+
+    const qint64 nDeviceSize = pDevice->size();
+
+    return (nDeviceSize >= 0) && (m_nOffset <= nDeviceSize) && (m_nSize <= (nDeviceSize - m_nOffset));
+}
+
+void XHashWidget::setDataControlsEnabled(bool bState)
+{
+    const bool bHasType = bState && (ui->comboBoxType->count() > 0);
+    const bool bHasMapMode = bState && (ui->comboBoxMapMode->count() > 0);
+    const bool bHasMethod = bState && (ui->comboBoxMethod->count() > 0);
+
+    ui->comboBoxType->setEnabled(bHasType);
+    ui->comboBoxMapMode->setEnabled(bHasMapMode);
+    ui->comboBoxMethod->setEnabled(bHasMethod);
+    ui->lineEditOffset->setEnabled(bState);
+    ui->lineEditSize->setEnabled(bState);
+    ui->lineEditHash->setEnabled(bState);
+    ui->tableViewRegions->setEnabled(bState);
+    ui->toolButtonReload->setEnabled(bHasType && bHasMapMode && bHasMethod);
+
+    const QAbstractItemModel *pModel = ui->tableViewRegions->model();
+    ui->toolButtonSave->setEnabled(bState && !m_hashData.sHash.isEmpty() && pModel && (pModel->rowCount() > 0));
+}
+
+void XHashWidget::setStatus(const QString &sStatus)
+{
+    ui->labelStatus->setText(sStatus);
 }
 
 void XHashWidget::populateHashMethods()
@@ -138,67 +218,140 @@ void XHashWidget::fillRegionsModel()
 
 void XHashWidget::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize, bool bAuto)
 {
+    if (!pDevice || !pDevice->isOpen() || !pDevice->isReadable() || pDevice->isSequential() || (nOffset < 0) || (nSize < -1)) {
+        invalidateData(tr("A readable random-access device is required."));
+        return;
+    }
+
+    const qint64 nDeviceSize = pDevice->size();
+
+    if ((nDeviceSize <= 0) || (nOffset >= nDeviceSize)) {
+        invalidateData(tr("The selected range does not contain data."));
+        return;
+    }
+
+    const qint64 nAvailableSize = nDeviceSize - nOffset;
+
+    if ((nSize == -1) || (nSize > nAvailableSize)) {
+        nSize = nAvailableSize;
+    }
+
+    if (nSize <= 0) {
+        invalidateData(tr("The selected range does not contain data."));
+        return;
+    }
+
     m_pDevice = pDevice;
     m_nOffset = nOffset;
     m_nSize = nSize;
 
-    if ((m_pDevice == nullptr) || (m_nOffset < 0)) {
-        clearResults();
-        return;
-    }
-
-    if (m_nSize == -1) {
-        m_nSize = qMax<qint64>(0, m_pDevice->size() - m_nOffset);
-    }
-
-    if ((m_nSize < 0) || (m_nOffset + m_nSize > m_pDevice->size())) {
-        m_nSize = qMax<qint64>(0, m_pDevice->size() - m_nOffset);
-    }
+    clearResults();
 
     ui->lineEditOffset->setValue32_64(m_nOffset);
     ui->lineEditSize->setValue32_64(m_nSize);
 
-    SubDevice subDevice(m_pDevice, m_nOffset, m_nSize);
+    const qint64 nOriginalPosition = pDevice->pos();
+    SubDevice subDevice(pDevice, m_nOffset, m_nSize);
 
     if (subDevice.open(QIODevice::ReadOnly)) {
-        XFormats::setFileTypeComboBox(fileType, &subDevice, ui->comboBoxType);
-        XFormats::getMapModesList(fileType, ui->comboBoxMapMode);
+        const XBinary::FT detectedFileType = XFormats::setFileTypeComboBox(fileType, &subDevice, ui->comboBoxType);
+        XFormats::getMapModesList(detectedFileType, ui->comboBoxMapMode);
         subDevice.close();
+    } else {
+        if (nOriginalPosition >= 0) {
+            pDevice->seek(nOriginalPosition);
+        }
+
+        invalidateData(tr("The selected range cannot be read."));
+        return;
+    }
+
+    if (nOriginalPosition >= 0) {
+        pDevice->seek(nOriginalPosition);
+    }
+
+    setDataControlsEnabled(true);
+
+    if (!ui->toolButtonReload->isEnabled()) {
+        setStatus(tr("No compatible hashing options are available."));
+        return;
     }
 
     if (bAuto) {
         reload();
+    } else {
+        setStatus(tr("Ready. Press Reload to calculate hashes."));
     }
 }
 
 void XHashWidget::reload()
 {
-    if ((m_pDevice == nullptr) || (m_nSize <= 0) || (m_nOffset < 0)) {
+    if (!isDataReady()) {
+        invalidateData(tr("A readable random-access device and a non-empty range are required."));
+        return;
+    }
+
+    if ((ui->comboBoxMethod->currentIndex() < 0) || (ui->comboBoxType->currentIndex() < 0) || (ui->comboBoxMapMode->currentIndex() < 0)) {
         clearResults();
+        setDataControlsEnabled(true);
+        setStatus(tr("No compatible hashing options are available."));
         return;
     }
 
     m_hashData.hash = static_cast<XBinary::HASH>(ui->comboBoxMethod->currentData().toInt());
     m_hashData.fileType = static_cast<XBinary::FT>(ui->comboBoxType->currentData().toInt());
     m_hashData.mapMode = static_cast<XBinary::MAPMODE>(ui->comboBoxMapMode->currentData().toInt());
-    m_hashData.nOffset = m_nOffset;
+    m_hashData.nOffset = 0;
     m_hashData.nSize = m_nSize;
 
-    HashProcess hashProcess;
-    XDialogProcess dhp(XOptions::getMainWidget(this), &hashProcess);
-    dhp.setGlobal(getShortcuts(), getGlobalOptions());
-    hashProcess.setData(m_pDevice, &m_hashData, dhp.getPdStruct());
-    dhp.start();
-    dhp.showDialogDelay();
+    QPointer<QIODevice> pDevice = m_pDevice;
+    const qint64 nOriginalPosition = pDevice->pos();
+    bool bSuccess = false;
 
-    if (!dhp.isSuccess()) {
+    SubDevice subDevice(pDevice.data(), m_nOffset, m_nSize);
+
+    if (!subDevice.open(QIODevice::ReadOnly)) {
+        if (pDevice && (nOriginalPosition >= 0)) {
+            pDevice->seek(nOriginalPosition);
+        }
+
+        invalidateData(tr("The selected range cannot be read."));
+        return;
+    }
+
+    {
+        HashProcess hashProcess;
+        XDialogProcess dhp(XOptions::getMainWidget(this), &hashProcess);
+        dhp.setGlobal(getShortcuts(), getGlobalOptions());
+        hashProcess.setData(&subDevice, &m_hashData, dhp.getPdStruct());
+        dhp.start();
+        dhp.showDialogDelay();
+        bSuccess = dhp.isSuccess();
+    }
+
+    subDevice.close();
+
+    if (pDevice && (nOriginalPosition >= 0)) {
+        pDevice->seek(nOriginalPosition);
+    }
+
+    if (!isDataReady()) {
+        invalidateData(tr("The source device or selected range became unavailable."));
+        return;
+    }
+
+    if (!bSuccess || m_hashData.sHash.isEmpty()) {
         clearResults();
+        setDataControlsEnabled(true);
+        setStatus(tr("Hash calculation was canceled or failed."));
         return;
     }
 
     ui->lineEditHash->setValue_String(m_hashData.sHash);
 
     fillRegionsModel();
+    setDataControlsEnabled(true);
+    setStatus(tr("Calculated %1 for %2 bytes.").arg(ui->comboBoxMethod->currentText(), QString::number(m_nSize)));
 }
 
 void XHashWidget::adjustView()
@@ -241,7 +394,11 @@ void XHashWidget::registerShortcuts(bool bState)
 
 void XHashWidget::on_toolButtonSave_clicked()
 {
-    XShortcutsWidget::saveTableModel(ui->tableViewRegions->getProxyModel(), XBinary::getResultFileName(m_pDevice, QString("%1.txt").arg(tr("Hash"))));
+    QAbstractItemModel *pModel = ui->tableViewRegions->getProxyModel();
+
+    if (isDataReady() && pModel && (pModel->rowCount() > 0)) {
+        XShortcutsWidget::saveTableModel(pModel, XBinary::getResultFileName(m_pDevice.data(), QString("%1.txt").arg(tr("Hash"))));
+    }
 }
 
 void XHashWidget::on_tableViewRegions_customContextMenuRequested(const QPoint &pos)

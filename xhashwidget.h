@@ -24,6 +24,7 @@
 #include <QFileDialog>
 #include <QImageWriter>
 #include <QItemSelection>
+#include <QPointer>
 #include <QStandardItemModel>
 
 #include "hashprocess.h"
@@ -40,7 +41,7 @@ class XHashWidget : public XShortcutsWidget {
 
 public:
     explicit XHashWidget(QWidget *pParent = nullptr);
-    ~XHashWidget();
+    ~XHashWidget() override;
 
     void setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize, bool bAuto = false);
     void reload();
@@ -60,6 +61,10 @@ protected:
 
 private:
     void clearResults();
+    void invalidateData(const QString &sStatus);
+    bool isDataReady() const;
+    void setDataControlsEnabled(bool bState);
+    void setStatus(const QString &sStatus);
     void populateHashMethods();
     void fillRegionsModel();
     void applyTableHeaders(QStandardItemModel *pModel);
@@ -70,7 +75,7 @@ private:
 
 private:
     Ui::XHashWidget *ui;
-    QIODevice *m_pDevice;
+    QPointer<QIODevice> m_pDevice;
     qint64 m_nOffset;
     qint64 m_nSize;
     HashProcess::DATA m_hashData;

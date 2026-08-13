@@ -25,6 +25,13 @@
 DialogHash::DialogHash(QWidget *pParent) : XShortcutsDialog(pParent, true), ui(new Ui::DialogHash)
 {
     ui->setupUi(this);
+
+    connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+}
+
+DialogHash::DialogHash(QWidget *pParent, QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize) : DialogHash(pParent)
+{
+    setData(pDevice, fileType, nOffset, nSize);
 }
 
 DialogHash::~DialogHash()
@@ -34,6 +41,7 @@ DialogHash::~DialogHash()
 
 void DialogHash::adjustView()
 {
+    ui->widgetHash->adjustView();
 }
 
 void DialogHash::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffset, qint64 nSize)
@@ -44,11 +52,7 @@ void DialogHash::setData(QIODevice *pDevice, XBinary::FT fileType, qint64 nOffse
 void DialogHash::setGlobal(XShortcuts *pShortcuts, XOptions *pXOptions)
 {
     ui->widgetHash->setGlobal(pShortcuts, pXOptions);
-}
-
-void DialogHash::on_pushButtonClose_clicked()
-{
-    this->close();
+    XShortcutsDialog::setGlobal(pShortcuts, pXOptions);
 }
 
 void DialogHash::registerShortcuts(bool bState)
